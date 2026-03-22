@@ -405,17 +405,14 @@ function Hero() {
               Java
             </div>
 
-            {/* Center monogram */}
+            {/* Profile photo */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div
-                className="w-28 h-28 rounded-full border-2 flex items-center justify-center font-display font-bold text-4xl gradient-text"
-                style={{
-                  borderColor: "oklch(0.49 0.26 285 / 0.3)",
-                  background: "oklch(0.085 0.022 265 / 0.6)",
-                }}
-              >
-                AK
-              </div>
+              <img
+                src="/assets/uploads/porttt-1.jpeg"
+                alt="Abhishek Kumar"
+                className="w-32 h-32 rounded-full object-cover border-2"
+                style={{ borderColor: "oklch(0.49 0.26 285 / 0.6)" }}
+              />
             </div>
           </div>
         </div>
