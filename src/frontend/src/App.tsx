@@ -4,6 +4,7 @@ import {
   Briefcase,
   ChevronUp,
   Code2,
+  Download,
   ExternalLink,
   GraduationCap,
   Heart,
@@ -14,7 +15,6 @@ import {
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { SiGithub, SiLinkedin } from "react-icons/si";
-import { ParticleCanvas } from "./components/ParticleCanvas";
 import { useScrollReveal } from "./hooks/useScrollReveal";
 
 // ─── Data ────────────────────────────────────────────────────────────────────
@@ -57,6 +57,8 @@ const CERTIFICATIONS = [
     date: "Sept 2024",
     description:
       "Comprehensive understanding of networking fundamentals, protocols, and connectivity principles.",
+    downloadUrl:
+      "/assets/uploads/The-Bits-and-Bytes-of-Computer-Networking-certificate-3.pdf",
   },
   {
     title: "Computer Communications (Specialization)",
@@ -64,6 +66,7 @@ const CERTIFICATIONS = [
     date: "Nov 2024",
     description:
       "In-depth study of computer communications protocols, networking architecture, and data transmission.",
+    downloadUrl: "/assets/uploads/Computer-Communications-certificate-2.pdf",
   },
   {
     title: "Master Generative AI & Generative AI Tools",
@@ -71,13 +74,17 @@ const CERTIFICATIONS = [
     date: "Aug 2025",
     description:
       "Comprehensive training in generative AI, machine learning models, and practical AI tool implementation.",
+    downloadUrl:
+      "/assets/uploads/Master-Generative-AI-Generative-AI-tools-2.pdf",
   },
   {
-    title: "Build Generative AI Apps with No-Code Tools",
+    title: "Build Generative AI Apps and Solutions with No-Code Tools",
     issuer: "Infosys Springboard",
     date: "Aug 2025",
     description:
       "Expertise in developing AI applications without coding using cutting-edge no-code platforms.",
+    downloadUrl:
+      "/assets/uploads/Build-Generative-AI-Apps-and-solutions-with-No-Code-Tools-1.pdf",
   },
   {
     title: "Computational Theory: Language Principle & Finite Automata",
@@ -85,6 +92,19 @@ const CERTIFICATIONS = [
     date: "Aug 2025",
     description:
       "Deep understanding of formal languages, computational theory, and automata fundamentals.",
+    downloadUrl:
+      "/assets/uploads/Computational-Theory-Language-Principle-Finite-Automata-Theory-1.pdf",
+  },
+];
+
+const TRAINING = [
+  {
+    title: "Logic Building, Programming and Data Structures",
+    period: "Jun – Jul 2025",
+    org: "LPU Centre for Professional Enhancement",
+    description:
+      "Completed intensive skill development training focused on logical thinking, programming fundamentals, and data structures for effective problem-solving and algorithm design.",
+    downloadUrl: "/assets/uploads/Summer-Training-Certificate-1.pdf",
   },
 ];
 
@@ -93,6 +113,30 @@ const SKILLS = {
   "Tools & Platforms": ["Git", "GitHub", "VS Code", "Power BI"],
   "Web & Design": ["HTML", "CSS", "Tailwind CSS", "Responsive Design"],
 };
+
+const CONTACT_LINKS = [
+  {
+    icon: <Mail size={20} />,
+    label: "Email",
+    value: "abhishek7783patel@gmail.com",
+    href: "mailto:abhishek7783patel@gmail.com",
+    color: "oklch(0.75 0.22 200)",
+  },
+  {
+    icon: <SiGithub size={20} />,
+    label: "GitHub",
+    value: "AbhishekPatel9305",
+    href: "https://github.com/AbhishekPatel9305",
+    color: "oklch(0.75 0.22 300)",
+  },
+  {
+    icon: <SiLinkedin size={20} />,
+    label: "LinkedIn",
+    value: "abhishekkumar9305",
+    href: "https://www.linkedin.com/in/abhishekkumar9305/",
+    color: "oklch(0.72 0.2 260)",
+  },
+];
 
 // ─── Scroll Reveal Section ────────────────────────────────────────────────────
 
@@ -110,6 +154,40 @@ function Section({
     <section id={id} ref={ref} className={`section-reveal ${className}`}>
       {children}
     </section>
+  );
+}
+
+// ─── Section Header ───────────────────────────────────────────────────────────
+
+function SectionHeader({ label, title }: { label: string; title: string }) {
+  return (
+    <div className="space-y-3">
+      <div
+        className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest"
+        style={{ color: "oklch(0.75 0.22 300)" }}
+      >
+        <span
+          className="w-8 h-px"
+          style={{
+            background:
+              "linear-gradient(90deg, oklch(0.65 0.28 300), oklch(0.75 0.22 200))",
+          }}
+        />
+        {label}
+      </div>
+      <h2 className="text-4xl sm:text-5xl font-bold font-display">
+        {title.includes(" ") ? (
+          <>
+            {title.split(" ")[0]}{" "}
+            <span className="gradient-text">
+              {title.split(" ").slice(1).join(" ")}
+            </span>
+          </>
+        ) : (
+          <span className="gradient-text">{title}</span>
+        )}
+      </h2>
+    </div>
   );
 }
 
@@ -145,10 +223,16 @@ function Navbar() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-navy-deep/80 backdrop-blur-xl border-b border-border/50 shadow-lg"
-          : "bg-transparent"
+        scrolled ? "backdrop-blur-xl border-b shadow-lg" : "bg-transparent"
       }`}
+      style={
+        scrolled
+          ? {
+              background: "oklch(0.09 0.025 270 / 0.85)",
+              borderColor: "oklch(0.22 0.05 275 / 0.5)",
+            }
+          : {}
+      }
     >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
         {/* Logo */}
@@ -159,9 +243,18 @@ function Navbar() {
           aria-label="Back to top"
           data-ocid="nav.link"
         >
-          <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-purple to-port-blue flex items-center justify-center text-sm font-bold text-white glow-purple group-hover:scale-105 transition-transform">
+          <div
+            className="w-9 h-9 rounded-lg flex items-center justify-center text-sm font-bold text-white glow-purple group-hover:scale-105 transition-transform"
+            style={{
+              background:
+                "linear-gradient(135deg, oklch(0.65 0.28 300), oklch(0.75 0.22 200))",
+            }}
+          >
             AK
           </div>
+          <span className="font-display font-bold text-sm gradient-text hidden sm:block">
+            Abhishek Kumar
+          </span>
         </button>
 
         {/* Desktop Nav */}
@@ -182,11 +275,22 @@ function Navbar() {
           ))}
         </ul>
 
+        {/* Resume download */}
+        <a
+          href="/assets/uploads/resumeeeeeeeeeee-1.pdf"
+          download
+          className="hidden md:flex items-center gap-1.5 px-5 py-2 text-sm font-semibold btn-outline"
+          data-ocid="nav.secondary_button"
+        >
+          <Download size={15} />
+          Resume
+        </a>
+
         {/* Hire Me pill */}
         <button
           type="button"
           onClick={() => scrollTo("#contact")}
-          className="hidden md:flex items-center gap-1.5 px-4 py-1.5 rounded-full border border-purple/60 text-purple-light text-sm font-medium hover:bg-purple/10 hover:border-purple transition-all duration-200 hover:shadow-glow"
+          className="hidden md:flex items-center gap-1.5 px-5 py-2 text-sm font-semibold btn-primary"
           data-ocid="nav.primary_button"
         >
           Hire Me
@@ -206,7 +310,13 @@ function Navbar() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="md:hidden bg-navy-card/95 backdrop-blur-xl border-b border-border">
+        <div
+          className="md:hidden border-b backdrop-blur-xl"
+          style={{
+            background: "oklch(0.09 0.025 270 / 0.95)",
+            borderColor: "oklch(0.22 0.05 275)",
+          }}
+        >
           <ul className="px-4 py-4 flex flex-col gap-3">
             {NAV_LINKS.map((link) => (
               <li key={link.href}>
@@ -220,6 +330,17 @@ function Navbar() {
                 </button>
               </li>
             ))}
+            <li>
+              <a
+                href="/assets/uploads/resumeeeeeeeeeee-1.pdf"
+                download
+                className="flex items-center gap-2 text-sm font-semibold px-3 py-2 btn-outline w-full justify-center"
+                data-ocid="nav.secondary_button"
+              >
+                <Download size={15} />
+                Resume
+              </a>
+            </li>
           </ul>
         </div>
       )}
@@ -240,29 +361,30 @@ function Hero() {
       id="hero"
       className="relative min-h-screen flex items-center overflow-hidden"
     >
-      <div className="absolute inset-0 grid-bg opacity-30" />
+      {/* Ambient blobs */}
       <div
-        className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full opacity-10 blur-3xl animate-drift"
-        style={{ background: "oklch(0.49 0.26 285)" }}
+        className="absolute top-1/4 -left-20 w-96 h-96 rounded-full opacity-20 blur-3xl animate-drift pointer-events-none"
+        style={{ background: "oklch(0.65 0.28 300)" }}
       />
       <div
-        className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full opacity-10 blur-3xl animate-drift"
-        style={{ background: "oklch(0.60 0.19 240)", animationDelay: "-6s" }}
+        className="absolute bottom-1/4 -right-20 w-80 h-80 rounded-full opacity-15 blur-3xl animate-drift pointer-events-none"
+        style={{ background: "oklch(0.75 0.22 200)", animationDelay: "-6s" }}
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-20 pb-16 grid lg:grid-cols-2 gap-12 items-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-24 pb-16 grid lg:grid-cols-2 gap-12 items-center relative z-10">
         {/* Left content */}
         <div className="space-y-8">
           <div className="space-y-4">
             <div
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-medium text-purple-light animate-fade-in-up"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border text-xs font-medium animate-fade-in-up"
               style={{
-                borderColor: "oklch(0.49 0.26 285 / 0.4)",
-                background: "oklch(0.49 0.26 285 / 0.08)",
+                borderColor: "oklch(0.75 0.22 200 / 0.4)",
+                background: "oklch(0.75 0.22 200 / 0.08)",
+                color: "oklch(0.75 0.22 200)",
                 animationDelay: "0.1s",
               }}
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-[oklch(0.75_0.22_200)] animate-pulse" />
               Available for opportunities
             </div>
 
@@ -298,11 +420,7 @@ function Hero() {
             <button
               type="button"
               onClick={() => scrollTo("#work")}
-              className="px-6 py-3 rounded-full font-semibold text-sm text-white transition-all duration-200 hover:scale-105"
-              style={{
-                background:
-                  "linear-gradient(135deg, oklch(0.49 0.26 285), oklch(0.60 0.19 240))",
-              }}
+              className="px-7 py-3 text-sm btn-primary"
               data-ocid="hero.primary_button"
             >
               View My Work
@@ -310,8 +428,7 @@ function Hero() {
             <button
               type="button"
               onClick={() => scrollTo("#contact")}
-              className="px-6 py-3 rounded-full font-semibold text-sm border text-foreground transition-all duration-200 hover:bg-white/5 hover:border-purple/60"
-              style={{ borderColor: "oklch(0.25 0.06 265)" }}
+              className="px-7 py-3 text-sm btn-outline"
               data-ocid="hero.secondary_button"
             >
               Get in Touch
@@ -320,14 +437,14 @@ function Hero() {
 
           {/* Social links */}
           <div
-            className="flex items-center gap-4 animate-fade-in-up"
+            className="flex items-center gap-3 animate-fade-in-up"
             style={{ animationDelay: "0.6s" }}
           >
             <a
               href="https://github.com/AbhishekPatel9305"
               target="_blank"
               rel="noreferrer"
-              className="p-2.5 rounded-lg border border-border hover:border-purple/60 hover:bg-purple/10 text-muted-foreground hover:text-foreground transition-all duration-200"
+              className="p-3 rounded-xl border glass-card hover:glow-border-primary text-muted-foreground hover:text-foreground transition-all duration-200"
               aria-label="GitHub"
               data-ocid="hero.link"
             >
@@ -337,7 +454,7 @@ function Hero() {
               href="https://www.linkedin.com/in/abhishekkumar9305/"
               target="_blank"
               rel="noreferrer"
-              className="p-2.5 rounded-lg border border-border hover:border-port-blue/60 hover:bg-port-blue/10 text-muted-foreground hover:text-foreground transition-all duration-200"
+              className="p-3 rounded-xl border glass-card hover:glow-border-cyan text-muted-foreground hover:text-foreground transition-all duration-200"
               aria-label="LinkedIn"
               data-ocid="hero.link"
             >
@@ -345,7 +462,7 @@ function Hero() {
             </a>
             <a
               href="mailto:abhishek7783patel@gmail.com"
-              className="p-2.5 rounded-lg border border-border hover:border-cyan/60 hover:bg-cyan/10 text-muted-foreground hover:text-foreground transition-all duration-200"
+              className="p-3 rounded-xl border glass-card hover:glow-border-primary text-muted-foreground hover:text-foreground transition-all duration-200"
               aria-label="Email"
               data-ocid="hero.link"
             >
@@ -354,72 +471,92 @@ function Hero() {
           </div>
         </div>
 
-        {/* Right: Particle canvas */}
+        {/* Right: Profile photo with spinning ring */}
         <div className="relative hidden lg:flex items-center justify-center">
+          {/* Radial glow backdrop */}
           <div
-            className="w-full h-[500px] rounded-2xl overflow-hidden border border-border/50 relative"
-            style={{ background: "oklch(0.10 0.025 265 / 0.5)" }}
+            className="absolute w-[400px] h-[400px] rounded-full pointer-events-none"
+            style={{
+              background:
+                "radial-gradient(ellipse 80% 80% at 50% 50%, oklch(0.65 0.28 300 / 0.25), transparent)",
+            }}
+          />
+
+          {/* Spinning conic ring */}
+          <div
+            className="w-[300px] h-[300px] rounded-full animate-spin-slow absolute pointer-events-none"
+            style={{
+              background:
+                "conic-gradient(from 0deg, oklch(0.65 0.28 300 / 0), oklch(0.65 0.28 300 / 0.8), oklch(0.75 0.22 200 / 0.8), oklch(0.65 0.28 300 / 0))",
+              padding: "2px",
+            }}
+          />
+
+          {/* Profile photo circle */}
+          <div
+            className="w-[280px] h-[280px] rounded-full overflow-hidden relative z-10"
+            style={{
+              border: "3px solid oklch(0.65 0.28 300 / 0.4)",
+              boxShadow:
+                "0 0 40px oklch(0.65 0.28 300 / 0.3), 0 0 80px oklch(0.65 0.28 300 / 0.1)",
+            }}
           >
-            <ParticleCanvas />
+            <img
+              src="/assets/uploads/porttt-1.jpeg"
+              alt="Abhishek Kumar"
+              className="w-full h-full object-cover"
+            />
+          </div>
 
-            {/* Floating tags */}
-            <div
-              className="absolute top-6 right-6 px-3 py-1.5 rounded-full text-xs font-semibold border text-cyan animate-float pointer-events-none"
-              style={{
-                background: "oklch(0.78 0.14 205 / 0.1)",
-                borderColor: "oklch(0.78 0.14 205 / 0.4)",
-              }}
-            >
-              AI &amp; ML
-            </div>
-            <div
-              className="absolute top-1/3 left-6 px-3 py-1.5 rounded-full text-xs font-semibold border text-purple-light animate-float pointer-events-none"
-              style={{
-                background: "oklch(0.49 0.26 285 / 0.1)",
-                borderColor: "oklch(0.49 0.26 285 / 0.4)",
-                animationDelay: "-2s",
-              }}
-            >
-              Python
-            </div>
-            <div
-              className="absolute bottom-1/3 right-10 px-3 py-1.5 rounded-full text-xs font-semibold border animate-float pointer-events-none"
-              style={{
-                background: "oklch(0.60 0.19 240 / 0.1)",
-                borderColor: "oklch(0.60 0.19 240 / 0.4)",
-                color: "oklch(0.78 0.15 240)",
-                animationDelay: "-4s",
-              }}
-            >
-              JavaScript
-            </div>
-            <div
-              className="absolute bottom-8 left-1/4 px-3 py-1.5 rounded-full text-xs font-semibold border animate-float pointer-events-none"
-              style={{
-                background: "oklch(0.63 0.26 290 / 0.1)",
-                borderColor: "oklch(0.63 0.26 290 / 0.4)",
-                color: "oklch(0.80 0.20 290)",
-                animationDelay: "-3s",
-              }}
-            >
-              Java
-            </div>
-
-            {/* Profile photo */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <img
-                src="/assets/uploads/porttt-1.jpeg"
-                alt="Abhishek Kumar"
-                className="w-32 h-32 rounded-full object-cover border-2"
-                style={{ borderColor: "oklch(0.49 0.26 285 / 0.6)" }}
-              />
-            </div>
+          {/* Floating skill badges */}
+          <div
+            className="absolute top-0 right-4 px-3 py-1.5 rounded-full text-xs font-semibold border animate-float pointer-events-none z-20"
+            style={{
+              background: "oklch(0.75 0.22 200 / 0.12)",
+              borderColor: "oklch(0.75 0.22 200 / 0.5)",
+              color: "oklch(0.75 0.22 200)",
+            }}
+          >
+            AI &amp; ML
+          </div>
+          <div
+            className="absolute top-1/3 -left-4 px-3 py-1.5 rounded-full text-xs font-semibold border animate-float pointer-events-none z-20"
+            style={{
+              background: "oklch(0.65 0.28 300 / 0.12)",
+              borderColor: "oklch(0.65 0.28 300 / 0.5)",
+              color: "oklch(0.75 0.22 300)",
+              animationDelay: "-2s",
+            }}
+          >
+            Python
+          </div>
+          <div
+            className="absolute bottom-1/3 right-2 px-3 py-1.5 rounded-full text-xs font-semibold border animate-float pointer-events-none z-20"
+            style={{
+              background: "oklch(0.75 0.22 200 / 0.12)",
+              borderColor: "oklch(0.75 0.22 200 / 0.5)",
+              color: "oklch(0.75 0.22 200)",
+              animationDelay: "-4s",
+            }}
+          >
+            JavaScript
+          </div>
+          <div
+            className="absolute bottom-4 left-8 px-3 py-1.5 rounded-full text-xs font-semibold border animate-float pointer-events-none z-20"
+            style={{
+              background: "oklch(0.65 0.28 300 / 0.12)",
+              borderColor: "oklch(0.65 0.28 300 / 0.5)",
+              color: "oklch(0.75 0.22 300)",
+              animationDelay: "-3s",
+            }}
+          >
+            Java
           </div>
         </div>
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-muted-foreground">
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-muted-foreground z-10">
         <span className="text-xs">Scroll</span>
         <div className="w-px h-12 bg-gradient-to-b from-muted-foreground to-transparent" />
       </div>
@@ -441,10 +578,16 @@ function About() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div className="space-y-6">
-            <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-purple-light">
+            <div
+              className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest"
+              style={{ color: "oklch(0.75 0.22 300)" }}
+            >
               <span
                 className="w-8 h-px"
-                style={{ background: "oklch(0.63 0.26 290)" }}
+                style={{
+                  background:
+                    "linear-gradient(90deg, oklch(0.65 0.28 300), oklch(0.75 0.22 200))",
+                }}
               />
               About Me
             </div>
@@ -472,13 +615,11 @@ function About() {
             {STAT_LIST.map((stat) => (
               <div
                 key={stat.label}
-                className="flex flex-col items-center justify-center p-6 rounded-2xl border card-hover text-center"
-                style={{
-                  background: "oklch(0.12 0.03 265)",
-                  borderColor: "oklch(0.25 0.06 265)",
-                }}
+                className="glass-card card-hover glow-border-primary flex flex-col items-center justify-center p-6 rounded-2xl text-center"
               >
-                <div className="mb-3 text-purple-light">{stat.icon}</div>
+                <div className="mb-3" style={{ color: "oklch(0.75 0.22 300)" }}>
+                  {stat.icon}
+                </div>
                 <div className="text-3xl font-bold font-display gradient-text mb-1">
                   {stat.value}
                 </div>
@@ -506,18 +647,14 @@ function Work() {
           {PROJECTS.map((project, i) => (
             <div
               key={project.title}
-              className="group rounded-2xl border overflow-hidden card-hover flex flex-col"
-              style={{
-                background: "oklch(0.12 0.03 265)",
-                borderColor: "oklch(0.25 0.06 265)",
-              }}
+              className="group glass-card card-hover rounded-2xl overflow-hidden flex flex-col"
               data-ocid={`work.item.${i + 1}`}
             >
               <div className="p-6 flex-1">
                 <div className="flex items-start justify-between mb-4">
                   <div
                     className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl"
-                    style={{ background: "oklch(0.14 0.04 265)" }}
+                    style={{ background: "oklch(0.65 0.28 300 / 0.1)" }}
                   >
                     {project.icon}
                   </div>
@@ -525,8 +662,15 @@ function Work() {
                     {project.period}
                   </span>
                 </div>
-                <h3 className="text-xl font-bold font-display mb-3 text-foreground group-hover:text-purple-light transition-colors">
-                  {project.title}
+                <h3
+                  className="text-xl font-bold font-display mb-3 text-foreground group-hover:text-transparent group-hover:bg-clip-text transition-colors"
+                  style={{
+                    WebkitTextFillColor: undefined,
+                  }}
+                >
+                  <span className="group-hover:gradient-text">
+                    {project.title}
+                  </span>
                 </h3>
                 <p className="text-muted-foreground text-sm leading-relaxed mb-5">
                   {project.description}
@@ -537,9 +681,9 @@ function Work() {
                       key={tag}
                       className="px-2.5 py-1 rounded-full text-xs font-medium border"
                       style={{
-                        background: "oklch(0.14 0.04 265)",
-                        borderColor: "oklch(0.25 0.06 265)",
-                        color: "oklch(0.72 0.03 265)",
+                        background: "oklch(0.65 0.28 300 / 0.07)",
+                        borderColor: "oklch(0.65 0.28 300 / 0.25)",
+                        color: "oklch(0.75 0.22 300)",
                       }}
                     >
                       {tag}
@@ -552,17 +696,20 @@ function Work() {
                 href={project.github}
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center justify-between px-6 py-4 border-t group/link hover:bg-purple/5 transition-colors"
-                style={{ borderColor: "oklch(0.25 0.06 265)" }}
+                className="flex items-center justify-between px-6 py-4 border-t group/link hover:bg-[oklch(0.65_0.28_300/0.05)] transition-colors"
+                style={{ borderColor: "oklch(0.22 0.05 275 / 0.8)" }}
                 data-ocid={`work.link.${i + 1}`}
               >
-                <span className="flex items-center gap-2 text-sm font-medium text-muted-foreground group-hover/link:text-purple-light transition-colors">
+                <span
+                  className="flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors"
+                  style={{}}
+                >
                   <SiGithub size={16} />
                   View on GitHub
                 </span>
                 <ExternalLink
                   size={14}
-                  className="text-muted-foreground group-hover/link:text-purple-light transition-colors"
+                  className="text-muted-foreground transition-colors"
                 />
               </a>
             </div>
@@ -585,34 +732,47 @@ function Certifications() {
           {CERTIFICATIONS.map((cert, i) => (
             <div
               key={cert.title}
-              className="group flex flex-col sm:flex-row gap-4 p-6 rounded-2xl border card-hover"
-              style={{
-                background: "oklch(0.12 0.03 265)",
-                borderColor: "oklch(0.25 0.06 265)",
-              }}
+              className="group glass-card card-hover flex flex-col sm:flex-row gap-4 p-6 rounded-2xl"
               data-ocid={`certifications.item.${i + 1}`}
             >
               <div
                 className="flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center"
-                style={{ background: "oklch(0.49 0.26 285 / 0.15)" }}
+                style={{ background: "oklch(0.65 0.28 300 / 0.15)" }}
               >
-                <Award size={18} className="text-purple-light" />
+                <Award size={18} style={{ color: "oklch(0.75 0.22 300)" }} />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 mb-1">
-                  <h3 className="font-semibold text-foreground group-hover:text-purple-light transition-colors text-sm leading-snug pr-4">
+                  <h3
+                    className="font-semibold text-foreground text-sm leading-snug pr-4"
+                    style={{ transition: "color 0.2s" }}
+                  >
                     {cert.title}
                   </h3>
                   <span className="text-xs text-muted-foreground whitespace-nowrap">
                     {cert.date}
                   </span>
                 </div>
-                <p className="text-xs font-medium text-purple-light mb-2">
+                <p
+                  className="text-xs font-medium mb-2"
+                  style={{ color: "oklch(0.75 0.22 300)" }}
+                >
                   {cert.issuer}
                 </p>
                 <p className="text-sm text-muted-foreground">
                   {cert.description}
                 </p>
+                {cert.downloadUrl && (
+                  <a
+                    href={cert.downloadUrl}
+                    download
+                    className="inline-flex items-center gap-1.5 mt-3 text-xs font-semibold px-4 py-1.5 btn-outline"
+                    data-ocid={`certifications.download.${i + 1}`}
+                  >
+                    <Download size={12} />
+                    Download
+                  </a>
+                )}
               </div>
             </div>
           ))}
@@ -631,48 +791,56 @@ function Training() {
         <SectionHeader label="Learning" title="Training" />
 
         <div className="mt-12 max-w-3xl">
-          <div
-            className="flex gap-6 p-8 rounded-2xl border card-hover"
-            style={{
-              background: "oklch(0.12 0.03 265)",
-              borderColor: "oklch(0.25 0.06 265)",
-            }}
-            data-ocid="training.item.1"
-          >
+          {TRAINING.map((item, i) => (
             <div
-              className="flex-shrink-0 w-14 h-14 rounded-2xl flex items-center justify-center"
-              style={{ background: "oklch(0.60 0.19 240 / 0.15)" }}
+              key={item.title}
+              className="glass-card card-hover flex gap-6 p-8 rounded-2xl"
+              data-ocid={`training.item.${i + 1}`}
             >
-              <BookOpen size={24} style={{ color: "oklch(0.78 0.15 240)" }} />
-            </div>
-            <div>
-              <div className="flex flex-wrap items-center gap-3 mb-2">
-                <h3 className="text-lg font-bold font-display text-foreground">
-                  Logic Building, Programming and Data Structures
-                </h3>
-                <span
-                  className="text-xs px-2.5 py-1 rounded-full font-medium"
-                  style={{
-                    background: "oklch(0.60 0.19 240 / 0.15)",
-                    color: "oklch(0.78 0.15 240)",
-                  }}
-                >
-                  Jun – Jul 2025
-                </span>
-              </div>
-              <p
-                className="text-sm font-medium mb-3"
-                style={{ color: "oklch(0.78 0.15 240)" }}
+              <div
+                className="flex-shrink-0 w-14 h-14 rounded-2xl flex items-center justify-center"
+                style={{ background: "oklch(0.75 0.22 200 / 0.15)" }}
               >
-                LPU Centre for Professional Enhancement
-              </p>
-              <p className="text-muted-foreground leading-relaxed">
-                Completed intensive skill development training focused on
-                logical thinking, programming fundamentals, and data structures
-                for effective problem-solving and algorithm design.
-              </p>
+                <BookOpen size={24} style={{ color: "oklch(0.75 0.22 200)" }} />
+              </div>
+              <div>
+                <div className="flex flex-wrap items-center gap-3 mb-2">
+                  <h3 className="text-lg font-bold font-display text-foreground">
+                    {item.title}
+                  </h3>
+                  <span
+                    className="text-xs px-2.5 py-1 rounded-full font-medium"
+                    style={{
+                      background: "oklch(0.75 0.22 200 / 0.12)",
+                      color: "oklch(0.75 0.22 200)",
+                    }}
+                  >
+                    {item.period}
+                  </span>
+                </div>
+                <p
+                  className="text-sm font-medium mb-3"
+                  style={{ color: "oklch(0.75 0.22 200)" }}
+                >
+                  {item.org}
+                </p>
+                <p className="text-muted-foreground leading-relaxed">
+                  {item.description}
+                </p>
+                {item.downloadUrl && (
+                  <a
+                    href={item.downloadUrl}
+                    download
+                    className="inline-flex items-center gap-1.5 mt-4 text-xs font-semibold px-4 py-2 btn-outline"
+                    data-ocid={`training.download.${i + 1}`}
+                  >
+                    <Download size={12} />
+                    Download Certificate
+                  </a>
+                )}
+              </div>
             </div>
-          </div>
+          ))}
         </div>
       </div>
     </Section>
@@ -689,21 +857,17 @@ function Achievements() {
 
         <div className="mt-12 max-w-3xl">
           <div
-            className="p-8 rounded-2xl border card-hover relative overflow-hidden"
-            style={{
-              background: "oklch(0.12 0.03 265)",
-              borderColor: "oklch(0.25 0.06 265)",
-            }}
+            className="glass-card card-hover glow-border-primary p-8 rounded-2xl relative overflow-hidden"
             data-ocid="achievements.item.1"
           >
             <div
-              className="absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl opacity-20 pointer-events-none"
-              style={{ background: "oklch(0.49 0.26 285)" }}
+              className="absolute top-0 right-0 w-40 h-40 rounded-full blur-3xl opacity-20 pointer-events-none"
+              style={{ background: "oklch(0.65 0.28 300)" }}
             />
             <div className="flex items-start gap-5 relative">
               <div
                 className="flex-shrink-0 w-14 h-14 rounded-2xl flex items-center justify-center"
-                style={{ background: "oklch(0.49 0.26 285 / 0.15)" }}
+                style={{ background: "oklch(0.65 0.28 300 / 0.15)" }}
               >
                 <Trophy size={24} className="text-yellow-400" />
               </div>
@@ -711,8 +875,8 @@ function Achievements() {
                 <div
                   className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full mb-3"
                   style={{
-                    background: "oklch(0.49 0.26 285 / 0.15)",
-                    color: "oklch(0.80 0.20 290)",
+                    background: "oklch(0.65 0.28 300 / 0.15)",
+                    color: "oklch(0.75 0.22 300)",
                   }}
                 >
                   🏆 1st Position
@@ -720,7 +884,10 @@ function Achievements() {
                 <h3 className="text-xl font-bold font-display text-foreground mb-1">
                   LPU Freshmen League 2023
                 </h3>
-                <p className="text-sm font-medium text-purple-light mb-3">
+                <p
+                  className="text-sm font-medium mb-3"
+                  style={{ color: "oklch(0.75 0.22 300)" }}
+                >
                   Reel-Making Competition · Lovely Professional University
                 </p>
                 <p className="text-muted-foreground leading-relaxed">
@@ -746,38 +913,38 @@ const SKILL_COLORS: Record<
   { bg: string; border: string; text: string }
 > = {
   Python: {
-    bg: "oklch(0.60 0.19 240 / 0.12)",
-    border: "oklch(0.60 0.19 240 / 0.4)",
-    text: "oklch(0.78 0.15 240)",
+    bg: "oklch(0.75 0.22 200 / 0.1)",
+    border: "oklch(0.75 0.22 200 / 0.4)",
+    text: "oklch(0.75 0.22 200)",
   },
   JavaScript: {
-    bg: "oklch(0.78 0.14 205 / 0.12)",
-    border: "oklch(0.78 0.14 205 / 0.4)",
-    text: "oklch(0.85 0.12 205)",
+    bg: "oklch(0.75 0.22 200 / 0.1)",
+    border: "oklch(0.75 0.22 200 / 0.4)",
+    text: "oklch(0.85 0.18 200)",
   },
   Java: {
-    bg: "oklch(0.49 0.26 285 / 0.12)",
-    border: "oklch(0.49 0.26 285 / 0.4)",
-    text: "oklch(0.75 0.22 285)",
+    bg: "oklch(0.65 0.28 300 / 0.1)",
+    border: "oklch(0.65 0.28 300 / 0.4)",
+    text: "oklch(0.75 0.22 300)",
   },
   "C++": {
-    bg: "oklch(0.63 0.26 290 / 0.12)",
-    border: "oklch(0.63 0.26 290 / 0.4)",
-    text: "oklch(0.78 0.22 290)",
+    bg: "oklch(0.65 0.28 300 / 0.1)",
+    border: "oklch(0.65 0.28 300 / 0.4)",
+    text: "oklch(0.75 0.22 300)",
   },
 };
 
 const DEFAULT_SKILL_COLOR = {
-  bg: "oklch(0.25 0.06 265 / 0.4)",
-  border: "oklch(0.35 0.06 265)",
-  text: "oklch(0.72 0.03 265)",
+  bg: "oklch(0.16 0.04 275 / 0.6)",
+  border: "oklch(0.28 0.06 275)",
+  text: "oklch(0.72 0.04 270)",
 };
 
 function SkillBadge({ skill }: { skill: string }) {
   const color = SKILL_COLORS[skill] ?? DEFAULT_SKILL_COLOR;
   return (
     <span
-      className="px-4 py-2 rounded-full text-sm font-medium border transition-all duration-200 hover:scale-105 cursor-default"
+      className="px-4 py-2 rounded-full text-sm font-medium border transition-all duration-200 hover:scale-105 cursor-default glow-border-primary"
       style={{
         background: color.bg,
         borderColor: color.border,
@@ -816,30 +983,6 @@ function Skills() {
 
 // ─── Contact ──────────────────────────────────────────────────────────────────
 
-const CONTACT_LINKS = [
-  {
-    icon: <Mail size={20} />,
-    label: "Email",
-    value: "abhishek7783patel@gmail.com",
-    href: "mailto:abhishek7783patel@gmail.com",
-    color: "oklch(0.78 0.14 205)",
-  },
-  {
-    icon: <SiGithub size={20} />,
-    label: "GitHub",
-    value: "AbhishekPatel9305",
-    href: "https://github.com/AbhishekPatel9305",
-    color: "oklch(0.72 0.03 265)",
-  },
-  {
-    icon: <SiLinkedin size={20} />,
-    label: "LinkedIn",
-    value: "abhishekkumar9305",
-    href: "https://www.linkedin.com/in/abhishekkumar9305/",
-    color: "oklch(0.60 0.19 240)",
-  },
-];
-
 function Contact() {
   return (
     <Section id="contact" className="py-24">
@@ -861,19 +1004,13 @@ function Contact() {
                   href={link.href}
                   target={link.href.startsWith("mailto") ? undefined : "_blank"}
                   rel="noreferrer"
-                  className="flex items-center gap-4 p-4 rounded-xl border group transition-all duration-200 hover:scale-[1.02]"
-                  style={{
-                    background: "oklch(0.12 0.03 265)",
-                    borderColor: "oklch(0.25 0.06 265)",
-                  }}
+                  className="glass-card card-hover flex items-center gap-4 p-4 rounded-xl group transition-all duration-200 hover:scale-[1.02]"
                   data-ocid={`contact.link.${i + 1}`}
                 >
                   <div
-                    className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 transition-transform group-hover:scale-110"
+                    className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
                     style={{
-                      background: link.color
-                        .replace(")", " / 0.15)")
-                        .replace("oklch(", "oklch("),
+                      background: link.color.replace(")", " / 0.15)"),
                     }}
                   >
                     <span style={{ color: link.color }}>{link.icon}</span>
@@ -882,47 +1019,50 @@ function Contact() {
                     <div className="text-xs text-muted-foreground mb-0.5">
                       {link.label}
                     </div>
-                    <div className="text-sm font-medium text-foreground group-hover:text-purple-light transition-colors">
+                    <div className="text-sm font-medium text-foreground">
                       {link.value}
                     </div>
                   </div>
                   <ExternalLink
                     size={14}
-                    className="ml-auto text-muted-foreground group-hover:text-purple-light transition-colors"
+                    className="ml-auto text-muted-foreground"
                   />
                 </a>
               ))}
             </div>
           </div>
 
-          {/* Right decorative */}
+          {/* Right decorative: spinning ring with profile photo */}
           <div className="hidden lg:flex items-center justify-center">
-            <div
-              className="w-72 h-72 rounded-full border-2 flex items-center justify-center relative"
-              style={{ borderColor: "oklch(0.25 0.06 265)" }}
-            >
+            <div className="relative w-72 h-72 flex items-center justify-center">
+              {/* Spinning conic ring */}
               <div
                 className="absolute inset-0 rounded-full animate-spin-slow pointer-events-none"
                 style={{
                   background:
-                    "conic-gradient(from 0deg, oklch(0.49 0.26 285 / 0), oklch(0.49 0.26 285 / 0.4), oklch(0.60 0.19 240 / 0.4), oklch(0.78 0.14 205 / 0.2), oklch(0.49 0.26 285 / 0))",
+                    "conic-gradient(from 0deg, oklch(0.65 0.28 300 / 0), oklch(0.65 0.28 300 / 0.6), oklch(0.75 0.22 200 / 0.6), oklch(0.75 0.22 200 / 0.2), oklch(0.65 0.28 300 / 0))",
+                  padding: "2px",
                 }}
               />
+              {/* Inner circle with photo */}
               <div
-                className="w-56 h-56 rounded-full border flex items-center justify-center"
+                className="w-60 h-60 rounded-full overflow-hidden relative z-10"
                 style={{
-                  background: "oklch(0.10 0.025 265)",
-                  borderColor: "oklch(0.25 0.06 265)",
+                  border: "2px solid oklch(0.22 0.05 275)",
+                  boxShadow: "0 0 40px oklch(0.65 0.28 300 / 0.2)",
                 }}
               >
-                <div className="text-center">
-                  <div className="text-5xl font-bold font-display gradient-text mb-1">
-                    AK
-                  </div>
-                  <div className="text-xs text-muted-foreground">
-                    Open to work
-                  </div>
-                </div>
+                <img
+                  src="/assets/uploads/porttt-1.jpeg"
+                  alt="Abhishek Kumar"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              {/* Label below */}
+              <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-center whitespace-nowrap">
+                <span className="text-xs font-semibold gradient-text">
+                  Open to work
+                </span>
               </div>
             </div>
           </div>
@@ -943,14 +1083,20 @@ function Footer() {
     <footer
       className="border-t py-10"
       style={{
-        borderColor: "oklch(0.25 0.06 265)",
-        background: "oklch(0.085 0.022 265)",
+        borderColor: "oklch(0.22 0.05 275)",
+        background: "oklch(0.09 0.025 270)",
       }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple to-port-blue flex items-center justify-center text-xs font-bold text-white">
+            <div
+              className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold text-white"
+              style={{
+                background:
+                  "linear-gradient(135deg, oklch(0.65 0.28 300), oklch(0.75 0.22 200))",
+              }}
+            >
               AK
             </div>
             <span className="font-display font-bold text-foreground">
@@ -1005,7 +1151,7 @@ function Footer() {
 
         <div
           className="mt-8 pt-6 border-t text-center text-xs text-muted-foreground"
-          style={{ borderColor: "oklch(0.20 0.04 265)" }}
+          style={{ borderColor: "oklch(0.18 0.04 275)" }}
         >
           © {year}. Built with{" "}
           <Heart size={10} className="inline text-red-400 mx-0.5" /> using{" "}
@@ -1040,45 +1186,12 @@ function BackToTop() {
     <button
       type="button"
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      className="fixed bottom-6 right-6 z-40 p-3 rounded-full border shadow-lg transition-all duration-200 hover:scale-110"
-      style={{
-        background: "oklch(0.12 0.03 265)",
-        borderColor: "oklch(0.49 0.26 285 / 0.5)",
-        color: "oklch(0.63 0.26 290)",
-      }}
+      className="fixed bottom-6 right-6 z-40 p-3 rounded-full border shadow-lg transition-all duration-200 hover:scale-110 glass-card glow-border-primary"
       aria-label="Back to top"
       data-ocid="nav.button"
     >
-      <ChevronUp size={18} />
+      <ChevronUp size={18} style={{ color: "oklch(0.75 0.22 300)" }} />
     </button>
-  );
-}
-
-// ─── Section Header Helper ────────────────────────────────────────────────────
-
-function SectionHeader({ label, title }: { label: string; title: string }) {
-  return (
-    <div className="space-y-3">
-      <div className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-purple-light">
-        <span
-          className="w-8 h-px"
-          style={{ background: "oklch(0.63 0.26 290)" }}
-        />
-        {label}
-      </div>
-      <h2 className="text-4xl sm:text-5xl font-bold font-display">
-        {title.includes(" ") ? (
-          <>
-            {title.split(" ")[0]}{" "}
-            <span className="gradient-text">
-              {title.split(" ").slice(1).join(" ")}
-            </span>
-          </>
-        ) : (
-          <span className="gradient-text">{title}</span>
-        )}
-      </h2>
-    </div>
   );
 }
 
@@ -1099,23 +1212,24 @@ export default function App() {
   }, []);
 
   return (
-    <div
-      className="min-h-screen"
-      style={{ background: "oklch(0.085 0.022 265)" }}
-    >
-      <Navbar />
-      <main>
-        <Hero />
-        <About />
-        <Work />
-        <Certifications />
-        <Training />
-        <Achievements />
-        <Skills />
-        <Contact />
-      </main>
-      <Footer />
-      <BackToTop />
+    <div className="min-h-screen relative">
+      {/* Global subtle grid layer */}
+      <div className="global-grid-layer" />
+      <div className="relative z-10">
+        <Navbar />
+        <main>
+          <Hero />
+          <About />
+          <Work />
+          <Certifications />
+          <Training />
+          <Achievements />
+          <Skills />
+          <Contact />
+        </main>
+        <Footer />
+        <BackToTop />
+      </div>
     </div>
   );
 }

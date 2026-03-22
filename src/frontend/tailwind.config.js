@@ -16,8 +16,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
-        display: ['Bricolage Grotesque', 'system-ui', 'sans-serif'],
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        display: ['Poppins', 'system-ui', 'sans-serif'],
       },
       colors: {
         border: "oklch(var(--border))",
@@ -70,12 +70,10 @@ export default {
           border: "oklch(var(--sidebar-border))",
           ring: "oklch(var(--sidebar-ring))",
         },
-        // Portfolio custom colors
+        // Legacy portfolio tokens
         navy: {
           deep: "oklch(var(--navy-deep))",
-          mid: "oklch(var(--navy-mid))",
           card: "oklch(var(--navy-card))",
-          elevated: "oklch(var(--navy-elevated))",
         },
         purple: {
           DEFAULT: "oklch(var(--purple))",
@@ -92,10 +90,9 @@ export default {
         "2xl": "1.25rem",
       },
       boxShadow: {
-        xs: "0 1px 2px 0 rgba(0,0,0,0.05)",
-        glow: "0 0 20px oklch(0.49 0.26 285 / 0.3)",
-        "glow-lg": "0 0 40px oklch(0.49 0.26 285 / 0.2), 0 0 80px oklch(0.49 0.26 285 / 0.1)",
-        card: "0 4px 24px oklch(0.085 0.022 265 / 0.8)",
+        glow: "0 0 20px oklch(0.65 0.28 300 / 0.4)",
+        "glow-lg": "0 0 40px oklch(0.65 0.28 300 / 0.25)",
+        card: "0 4px 24px oklch(0.09 0.025 270 / 0.8)",
       },
       keyframes: {
         "accordion-down": {
