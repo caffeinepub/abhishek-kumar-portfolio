@@ -16,8 +16,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        display: ['Poppins', 'system-ui', 'sans-serif'],
+        sans: ["Plus Jakarta Sans", "system-ui", "sans-serif"],
+        display: ["Bricolage Grotesque", "system-ui", "sans-serif"],
       },
       colors: {
         border: "oklch(var(--border))",
@@ -70,7 +70,6 @@ export default {
           border: "oklch(var(--sidebar-border))",
           ring: "oklch(var(--sidebar-ring))",
         },
-        // Legacy portfolio tokens
         navy: {
           deep: "oklch(var(--navy-deep))",
           card: "oklch(var(--navy-card))",

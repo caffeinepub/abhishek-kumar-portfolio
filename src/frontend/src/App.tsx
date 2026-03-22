@@ -1,6 +1,7 @@
 import {
   Award,
   BookOpen,
+  Brain,
   Briefcase,
   ChevronUp,
   Code2,
@@ -9,24 +10,60 @@ import {
   GraduationCap,
   Heart,
   Mail,
+  MapPin,
   Menu,
+  Moon,
+  Phone,
+  Sparkles,
+  Sun,
   Trophy,
+  Wrench,
   X,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { SiGithub, SiLinkedin } from "react-icons/si";
 import { useScrollReveal } from "./hooks/useScrollReveal";
 
+// ─── Theme ───────────────────────────────────────────────────────────────────
+
+function useTheme() {
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
+
+  useEffect(() => {
+    const saved = localStorage.getItem("portfolio-theme") as
+      | "dark"
+      | "light"
+      | null;
+    if (saved) {
+      setTheme(saved);
+      document.documentElement.setAttribute("data-theme", saved);
+    }
+  }, []);
+
+  const toggle = () => {
+    setTheme((prev) => {
+      const next = prev === "dark" ? "light" : "dark";
+      localStorage.setItem("portfolio-theme", next);
+      document.documentElement.setAttribute("data-theme", next);
+      return next;
+    });
+  };
+
+  return { theme, toggle };
+}
+
 // ─── Data ────────────────────────────────────────────────────────────────────
 
 const NAV_LINKS = [
-  { label: "About", href: "#about" },
-  { label: "Work", href: "#work" },
-  { label: "Certifications", href: "#certifications" },
-  { label: "Training", href: "#training" },
-  { label: "Achievements", href: "#achievements" },
+  { label: "Home", href: "#home" },
   { label: "Skills", href: "#skills" },
+  { label: "Training", href: "#current-learning" },
+  { label: "Projects", href: "#projects" },
+  { label: "Certifications", href: "#certifications" },
+  { label: "Achievements", href: "#achievements" },
+  { label: "Education", href: "#education" },
   { label: "Contact", href: "#contact" },
+  { label: "Resume", href: "#resume" },
 ];
 
 const PROJECTS = [
@@ -108,35 +145,72 @@ const TRAINING = [
   },
 ];
 
+const EDUCATION = [
+  {
+    degree: "Bachelor of Technology - Computer Science and Engineering",
+    institution: "Lovely Professional University",
+    location: "Jalandhar, Punjab",
+    period: "Aug 2023 – Present",
+    detail: "CGPA: 6.73",
+    icon: "🎓",
+    current: true,
+  },
+  {
+    degree: "Intermediate",
+    institution: "LJP SVM Inter College",
+    location: "Muzaffarnagar, Uttar Pradesh",
+    period: "Apr 2022 – Mar 2023",
+    detail: "Percentage: 82%",
+    icon: "📚",
+    current: false,
+  },
+  {
+    degree: "Matriculation",
+    institution: "LJP SVM Inter College",
+    location: "Muzaffarnagar, Uttar Pradesh",
+    period: "Apr 2020 – Mar 2021",
+    detail: "Percentage: 80%",
+    icon: "🏫",
+    current: false,
+  },
+];
+
 const SKILLS = {
   Development: ["Python", "JavaScript", "Java", "C++", "C", "SQL"],
   "Tools & Platforms": ["Git", "GitHub", "VS Code", "Power BI"],
-  "Web & Design": ["HTML", "CSS", "Tailwind CSS", "Responsive Design"],
+  "AI & Machine Learning": [
+    "Machine Learning",
+    "Deep Learning",
+    "Data Analysis",
+    "TensorFlow",
+  ],
 };
 
 const CONTACT_LINKS = [
   {
-    icon: <Mail size={20} />,
-    label: "Email",
-    value: "abhishek7783patel@gmail.com",
-    href: "mailto:abhishek7783patel@gmail.com",
-    color: "oklch(0.75 0.22 200)",
-  },
-  {
-    icon: <SiGithub size={20} />,
     label: "GitHub",
-    value: "AbhishekPatel9305",
     href: "https://github.com/AbhishekPatel9305",
-    color: "oklch(0.75 0.22 300)",
+    icon: <SiGithub size={20} />,
+    color: "oklch(0.85 0.01 270)",
+    sub: "github.com/AbhishekPatel9305",
   },
   {
-    icon: <SiLinkedin size={20} />,
     label: "LinkedIn",
-    value: "abhishekkumar9305",
     href: "https://www.linkedin.com/in/abhishekkumar9305/",
-    color: "oklch(0.72 0.2 260)",
+    icon: <SiLinkedin size={20} />,
+    color: "oklch(0.65 0.2 240)",
+    sub: "linkedin.com/in/abhishekkumar9305",
+  },
+  {
+    label: "Email",
+    href: "mailto:abhishek7783patel@gmail.com",
+    icon: <Mail size={20} />,
+    color: "oklch(0.75 0.22 200)",
+    sub: "abhishek7783patel@gmail.com",
   },
 ];
+
+const ROLES = ["AI & ML Student", "Developer", "Marketing Lead"];
 
 // ─── Scroll Reveal Section ────────────────────────────────────────────────────
 
@@ -159,41 +233,83 @@ function Section({
 
 // ─── Section Header ───────────────────────────────────────────────────────────
 
-function SectionHeader({ label, title }: { label: string; title: string }) {
+function SectionHeader({
+  label,
+  title,
+  subtitle,
+  num,
+}: {
+  label: string;
+  title: string;
+  subtitle?: string;
+  num?: string;
+}) {
+  const words = title.split(" ");
+  const first = words.slice(0, -1).join(" ");
+  const last = words[words.length - 1];
+
   return (
-    <div className="space-y-3">
-      <div
-        className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest"
-        style={{ color: "oklch(0.75 0.22 300)" }}
-      >
+    <div className="relative space-y-3 pb-2">
+      {num && (
         <span
-          className="w-8 h-px"
+          className="section-num absolute -top-6 left-0 select-none pointer-events-none z-0 leading-none"
+          aria-hidden="true"
+        >
+          {num}
+        </span>
+      )}
+
+      <div className="relative z-10 space-y-4">
+        {/* Badge */}
+        <div className="inline-flex items-center gap-2">
+          <span
+            className="px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest border"
+            style={{
+              borderColor: "oklch(0.65 0.28 300 / 0.4)",
+              background: "oklch(0.65 0.28 300 / 0.08)",
+              color: "oklch(0.75 0.22 300)",
+            }}
+          >
+            {label}
+          </span>
+        </div>
+
+        {/* Title */}
+        <h2 className="text-4xl sm:text-5xl font-bold font-display">
+          {first ? (
+            <>
+              <span className="text-foreground">{first} </span>
+              <span className="gradient-text">{last}</span>
+            </>
+          ) : (
+            <span className="gradient-text">{last}</span>
+          )}
+        </h2>
+
+        {/* Underline */}
+        <div
+          className="w-20 h-1 rounded-full"
           style={{
             background:
-              "linear-gradient(90deg, oklch(0.65 0.28 300), oklch(0.75 0.22 200))",
+              "linear-gradient(90deg, oklch(0.65 0.28 300), oklch(0.75 0.22 200), transparent)",
           }}
         />
-        {label}
-      </div>
-      <h2 className="text-4xl sm:text-5xl font-bold font-display">
-        {title.includes(" ") ? (
-          <>
-            {title.split(" ")[0]}{" "}
-            <span className="gradient-text">
-              {title.split(" ").slice(1).join(" ")}
-            </span>
-          </>
-        ) : (
-          <span className="gradient-text">{title}</span>
+
+        {/* Subtitle */}
+        {subtitle && (
+          <p className="text-muted-foreground text-base max-w-xl">{subtitle}</p>
         )}
-      </h2>
+      </div>
     </div>
   );
 }
 
 // ─── Navbar ───────────────────────────────────────────────────────────────────
 
-function Navbar() {
+function Navbar({
+  theme,
+  toggleTheme,
+}: { theme: "dark" | "light"; toggleTheme: () => void }) {
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("");
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -220,19 +336,21 @@ function Navbar() {
     setMobileOpen(false);
   };
 
+  const navBg =
+    theme === "dark"
+      ? "oklch(0.09 0.025 270 / 0.88)"
+      : "oklch(0.97 0.005 260 / 0.92)";
+  const navBorder =
+    theme === "dark"
+      ? "oklch(0.22 0.05 275 / 0.5)"
+      : "oklch(0.85 0.02 270 / 0.8)";
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled ? "backdrop-blur-xl border-b shadow-lg" : "bg-transparent"
       }`}
-      style={
-        scrolled
-          ? {
-              background: "oklch(0.09 0.025 270 / 0.85)",
-              borderColor: "oklch(0.22 0.05 275 / 0.5)",
-            }
-          : {}
-      }
+      style={scrolled ? { background: navBg, borderColor: navBorder } : {}}
     >
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
         {/* Logo */}
@@ -244,27 +362,31 @@ function Navbar() {
           data-ocid="nav.link"
         >
           <div
-            className="w-9 h-9 rounded-lg flex items-center justify-center text-sm font-bold text-white glow-purple group-hover:scale-105 transition-transform"
+            className="w-9 h-9 rounded-lg flex items-center justify-center text-xs font-bold text-white glow-purple group-hover:scale-105 transition-transform"
             style={{
               background:
                 "linear-gradient(135deg, oklch(0.65 0.28 300), oklch(0.75 0.22 200))",
             }}
           >
-            AK
+            &lt;/&gt;
           </div>
-          <span className="font-display font-bold text-sm gradient-text hidden sm:block">
-            Abhishek Kumar
+          <span
+            className="font-display font-bold text-sm hidden sm:block"
+            style={{ color: "oklch(var(--foreground))" }}
+          >
+            <span className="text-foreground">Abhishek</span>{" "}
+            <span className="gradient-text">Kumar</span>
           </span>
         </button>
 
         {/* Desktop Nav */}
-        <ul className="hidden md:flex items-center gap-6">
+        <ul className="hidden md:flex items-center gap-1">
           {NAV_LINKS.map((link) => (
             <li key={link.href}>
               <button
                 type="button"
                 onClick={() => scrollTo(link.href)}
-                className={`nav-link text-sm font-medium pb-1 ${
+                className={`nav-link text-xs font-medium ${
                   active === link.href ? "active" : ""
                 }`}
                 data-ocid="nav.link"
@@ -275,62 +397,82 @@ function Navbar() {
           ))}
         </ul>
 
-        {/* Resume download */}
-        <a
-          href="/assets/uploads/resumeeeeeeeeeee-1.pdf"
-          download
-          className="hidden md:flex items-center gap-1.5 px-5 py-2 text-sm font-semibold btn-outline"
-          data-ocid="nav.secondary_button"
-        >
-          <Download size={15} />
-          Resume
-        </a>
+        <div className="hidden md:flex items-center gap-2">
+          <a
+            href="/assets/uploads/resumeeeeeeeeeee-1.pdf"
+            download
+            className="flex items-center gap-1.5 px-5 py-2 text-sm font-semibold btn-outline"
+            data-ocid="nav.secondary_button"
+          >
+            <Download size={15} />
+            Resume
+          </a>
+          {/* Theme toggle */}
+          <button
+            type="button"
+            onClick={toggleTheme}
+            className="theme-toggle-btn"
+            aria-label="Toggle theme"
+            data-ocid="nav.toggle"
+          >
+            {theme === "dark" ? <Moon size={16} /> : <Sun size={16} />}
+          </button>
+        </div>
 
-        {/* Hire Me pill */}
-        <button
-          type="button"
-          onClick={() => scrollTo("#contact")}
-          className="hidden md:flex items-center gap-1.5 px-5 py-2 text-sm font-semibold btn-primary"
-          data-ocid="nav.primary_button"
-        >
-          Hire Me
-        </button>
-
-        {/* Mobile menu button */}
-        <button
-          type="button"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden p-2 text-muted-foreground hover:text-foreground"
-          aria-label="Toggle menu"
-          data-ocid="nav.toggle"
-        >
-          {mobileOpen ? <X size={20} /> : <Menu size={20} />}
-        </button>
+        {/* Mobile: theme toggle + hamburger */}
+        <div className="md:hidden flex items-center gap-2">
+          <button
+            type="button"
+            onClick={toggleTheme}
+            className="theme-toggle-btn"
+            aria-label="Toggle theme"
+            data-ocid="nav.toggle"
+          >
+            {theme === "dark" ? <Moon size={15} /> : <Sun size={15} />}
+          </button>
+          <button
+            type="button"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="p-2 text-muted-foreground hover:text-foreground"
+            aria-label="Toggle menu"
+            data-ocid="nav.toggle"
+          >
+            {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
       </nav>
 
-      {/* Mobile menu */}
       {mobileOpen && (
         <div
           className="md:hidden border-b backdrop-blur-xl"
           style={{
-            background: "oklch(0.09 0.025 270 / 0.95)",
-            borderColor: "oklch(0.22 0.05 275)",
+            background: navBg,
+            borderColor: navBorder,
           }}
         >
-          <ul className="px-4 py-4 flex flex-col gap-3">
+          <ul className="px-4 py-4 flex flex-col gap-1">
             {NAV_LINKS.map((link) => (
               <li key={link.href}>
                 <button
                   type="button"
                   onClick={() => scrollTo(link.href)}
-                  className="w-full text-left text-sm font-medium text-muted-foreground hover:text-foreground py-2 transition-colors"
+                  className={`w-full text-left text-sm font-medium py-2.5 px-3 rounded-lg transition-colors ${
+                    active === link.href
+                      ? "text-foreground"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                  style={
+                    active === link.href
+                      ? { background: "oklch(0.65 0.28 300 / 0.12)" }
+                      : {}
+                  }
                   data-ocid="nav.link"
                 >
                   {link.label}
                 </button>
               </li>
             ))}
-            <li>
+            <li className="pt-2">
               <a
                 href="/assets/uploads/resumeeeeeeeeeee-1.pdf"
                 download
@@ -350,7 +492,26 @@ function Navbar() {
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 
+const PARTICLES = Array.from({ length: 12 }, (_, i) => ({
+  id: i,
+  left: `${8 + ((i * 37) % 85)}%`,
+  size: 2 + (i % 3),
+  delay: `${(i * 1.7) % 10}s`,
+  duration: `${8 + (i % 6)}s`,
+  color:
+    i % 2 === 0 ? "oklch(0.65 0.28 300 / 0.6)" : "oklch(0.75 0.22 200 / 0.5)",
+}));
+
 function Hero() {
+  const [roleIdx, setRoleIdx] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setRoleIdx((prev) => (prev + 1) % ROLES.length);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, []);
+
   const scrollTo = (href: string) => {
     const el = document.querySelector(href);
     el?.scrollIntoView({ behavior: "smooth" });
@@ -358,10 +519,25 @@ function Hero() {
 
   return (
     <section
-      id="hero"
+      id="home"
       className="relative min-h-screen flex items-center overflow-hidden"
     >
-      {/* Ambient blobs */}
+      {PARTICLES.map((p) => (
+        <span
+          key={p.id}
+          className="hero-particle"
+          style={{
+            left: p.left,
+            width: `${p.size}px`,
+            height: `${p.size}px`,
+            background: p.color,
+            animationDelay: p.delay,
+            animationDuration: p.duration,
+            bottom: "-10px",
+          }}
+        />
+      ))}
+
       <div
         className="absolute top-1/4 -left-20 w-96 h-96 rounded-full opacity-20 blur-3xl animate-drift pointer-events-none"
         style={{ background: "oklch(0.65 0.28 300)" }}
@@ -372,285 +548,438 @@ function Hero() {
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-24 pb-16 grid lg:grid-cols-2 gap-12 items-center relative z-10">
-        {/* Left content */}
         <div className="space-y-8">
-          <div className="space-y-4">
-            <div
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border text-xs font-medium animate-fade-in-up"
-              style={{
-                borderColor: "oklch(0.75 0.22 200 / 0.4)",
-                background: "oklch(0.75 0.22 200 / 0.08)",
-                color: "oklch(0.75 0.22 200)",
-                animationDelay: "0.1s",
-              }}
-            >
-              <span className="w-2 h-2 rounded-full bg-[oklch(0.75_0.22_200)] animate-pulse" />
-              Available for opportunities
-            </div>
+          {/* Available badge */}
+          <div
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border text-xs font-semibold animate-fade-in-up"
+            style={{
+              borderColor: "oklch(0.55 0.22 150 / 0.5)",
+              background: "oklch(0.55 0.22 150 / 0.08)",
+              color: "oklch(0.72 0.18 150)",
+              animationDelay: "0.05s",
+            }}
+          >
+            <span
+              className="w-2 h-2 rounded-full animate-pulse"
+              style={{ background: "oklch(0.72 0.18 150)" }}
+            />
+            <Sparkles size={11} />
+            AVAILABLE FOR OPPORTUNITIES
+          </div>
 
-            <h1
-              className="text-5xl sm:text-6xl lg:text-7xl font-bold font-display leading-tight animate-fade-in-up"
-              style={{ animationDelay: "0.2s" }}
+          <div
+            className="space-y-2 animate-fade-in-up"
+            style={{ animationDelay: "0.1s" }}
+          >
+            <p
+              className="text-lg font-medium"
+              style={{ color: "oklch(0.62 0.04 270)" }}
             >
+              Hi, I&apos;m 👋
+            </p>
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black font-display leading-tight">
               <span className="text-foreground">Abhishek</span>
               <br />
               <span className="gradient-text">Kumar</span>
             </h1>
-
-            <p
-              className="text-xl sm:text-2xl font-medium text-muted-foreground animate-fade-in-up"
-              style={{ animationDelay: "0.3s" }}
-            >
-              Creative Developer &amp; Designer
-            </p>
-
-            <p
-              className="text-base text-muted-foreground max-w-lg leading-relaxed animate-fade-in-up"
-              style={{ animationDelay: "0.4s" }}
-            >
-              B.Tech AI &amp; ML student at LPU · Marketing Lead at EventViewz ·
-              Building intelligent solutions through code &amp; strategy
-            </p>
           </div>
 
+          {/* Cycling role */}
+          <div
+            className="animate-fade-in-up"
+            style={{ animationDelay: "0.2s" }}
+          >
+            <div
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-semibold"
+              style={{
+                borderColor: "oklch(0.75 0.22 200 / 0.4)",
+                background: "oklch(0.75 0.22 200 / 0.08)",
+                color: "oklch(0.75 0.22 200)",
+              }}
+            >
+              <span
+                className="w-2 h-2 rounded-full animate-pulse"
+                style={{ background: "oklch(0.75 0.22 200)" }}
+              />
+              <span
+                key={roleIdx}
+                className="cursor-blink"
+                style={{ minWidth: "160px" }}
+              >
+                {ROLES[roleIdx]}
+              </span>
+            </div>
+          </div>
+
+          <p
+            className="text-base text-muted-foreground max-w-lg leading-relaxed animate-fade-in-up"
+            style={{ animationDelay: "0.3s" }}
+          >
+            B.Tech AI &amp; ML student at LPU · Marketing Lead at EventViewz ·
+            Building intelligent solutions through code &amp; strategy
+          </p>
+
+          {/* Social circles */}
+          <div
+            className="flex items-center gap-3 animate-fade-in-up"
+            style={{ animationDelay: "0.4s" }}
+          >
+            <a
+              href="https://www.linkedin.com/in/abhishekkumar9305/"
+              target="_blank"
+              rel="noreferrer"
+              className="social-circle-btn"
+              style={{
+                background: "oklch(0.65 0.2 240 / 0.1)",
+                borderColor: "oklch(0.65 0.2 240 / 0.4)",
+              }}
+              aria-label="LinkedIn"
+            >
+              <SiLinkedin size={18} style={{ color: "oklch(0.65 0.2 240)" }} />
+            </a>
+            <a
+              href="https://github.com/AbhishekPatel9305"
+              target="_blank"
+              rel="noreferrer"
+              className="social-circle-btn"
+              style={{
+                background: "oklch(0.85 0.01 270 / 0.08)",
+                borderColor: "oklch(0.85 0.01 270 / 0.3)",
+              }}
+              aria-label="GitHub"
+            >
+              <SiGithub size={18} style={{ color: "oklch(0.85 0.01 270)" }} />
+            </a>
+            <a
+              href="mailto:abhishek7783patel@gmail.com"
+              className="social-circle-btn"
+              style={{
+                background: "oklch(0.75 0.22 200 / 0.1)",
+                borderColor: "oklch(0.75 0.22 200 / 0.4)",
+              }}
+              aria-label="Email"
+            >
+              <Mail size={18} style={{ color: "oklch(0.75 0.22 200)" }} />
+            </a>
+          </div>
+
+          {/* CTAs */}
           <div
             className="flex flex-wrap gap-4 animate-fade-in-up"
             style={{ animationDelay: "0.5s" }}
           >
             <button
               type="button"
-              onClick={() => scrollTo("#work")}
-              className="px-7 py-3 text-sm btn-primary"
+              onClick={() => scrollTo("#projects")}
+              className="px-8 py-3.5 text-sm font-semibold btn-primary"
               data-ocid="hero.primary_button"
             >
-              View My Work
+              View Projects ↓
             </button>
             <button
               type="button"
               onClick={() => scrollTo("#contact")}
-              className="px-7 py-3 text-sm btn-outline"
+              className="px-8 py-3.5 text-sm font-semibold btn-outline"
               data-ocid="hero.secondary_button"
             >
-              Get in Touch
+              Contact Me
             </button>
-          </div>
-
-          {/* Social links */}
-          <div
-            className="flex items-center gap-3 animate-fade-in-up"
-            style={{ animationDelay: "0.6s" }}
-          >
-            <a
-              href="https://github.com/AbhishekPatel9305"
-              target="_blank"
-              rel="noreferrer"
-              className="p-3 rounded-xl border glass-card hover:glow-border-primary text-muted-foreground hover:text-foreground transition-all duration-200"
-              aria-label="GitHub"
-              data-ocid="hero.link"
-            >
-              <SiGithub size={18} />
-            </a>
-            <a
-              href="https://www.linkedin.com/in/abhishekkumar9305/"
-              target="_blank"
-              rel="noreferrer"
-              className="p-3 rounded-xl border glass-card hover:glow-border-cyan text-muted-foreground hover:text-foreground transition-all duration-200"
-              aria-label="LinkedIn"
-              data-ocid="hero.link"
-            >
-              <SiLinkedin size={18} />
-            </a>
-            <a
-              href="mailto:abhishek7783patel@gmail.com"
-              className="p-3 rounded-xl border glass-card hover:glow-border-primary text-muted-foreground hover:text-foreground transition-all duration-200"
-              aria-label="Email"
-              data-ocid="hero.link"
-            >
-              <Mail size={18} />
-            </a>
           </div>
         </div>
 
-        {/* Right: Profile photo with spinning ring */}
-        <div className="relative hidden lg:flex items-center justify-center">
-          {/* Radial glow backdrop */}
-          <div
-            className="absolute w-[400px] h-[400px] rounded-full pointer-events-none"
-            style={{
-              background:
-                "radial-gradient(ellipse 80% 80% at 50% 50%, oklch(0.65 0.28 300 / 0.25), transparent)",
-            }}
-          />
-
-          {/* Spinning conic ring */}
-          <div
-            className="w-[300px] h-[300px] rounded-full animate-spin-slow absolute pointer-events-none"
-            style={{
-              background:
-                "conic-gradient(from 0deg, oklch(0.65 0.28 300 / 0), oklch(0.65 0.28 300 / 0.8), oklch(0.75 0.22 200 / 0.8), oklch(0.65 0.28 300 / 0))",
-              padding: "2px",
-            }}
-          />
-
-          {/* Profile photo circle */}
-          <div
-            className="w-[280px] h-[280px] rounded-full overflow-hidden relative z-10"
-            style={{
-              border: "3px solid oklch(0.65 0.28 300 / 0.4)",
-              boxShadow:
-                "0 0 40px oklch(0.65 0.28 300 / 0.3), 0 0 80px oklch(0.65 0.28 300 / 0.1)",
-            }}
-          >
-            <img
-              src="/assets/uploads/porttt-1.jpeg"
-              alt="Abhishek Kumar"
-              className="w-full h-full object-cover"
+        {/* Right — photo with ring */}
+        <div
+          className="flex justify-center lg:justify-end animate-fade-in-up"
+          style={{ animationDelay: "0.3s" }}
+        >
+          <div className="relative w-72 h-72 sm:w-80 sm:h-80 lg:w-96 lg:h-96">
+            <div
+              className="absolute inset-0 rounded-full animate-spin-slow pointer-events-none"
+              style={{
+                background:
+                  "conic-gradient(from 0deg, oklch(0.65 0.28 300), oklch(0.75 0.22 200), transparent, oklch(0.65 0.28 300))",
+                padding: "3px",
+              }}
             />
-          </div>
+            <div
+              className="absolute inset-4 rounded-full blur-2xl opacity-40 animate-pulse-glow pointer-events-none"
+              style={{
+                background:
+                  "radial-gradient(circle, oklch(0.65 0.28 300), oklch(0.75 0.22 200 / 0.5))",
+              }}
+            />
+            <div
+              className="absolute inset-[5px] rounded-full overflow-hidden"
+              style={{
+                boxShadow:
+                  "0 0 40px oklch(0.65 0.28 300 / 0.3), 0 0 80px oklch(0.65 0.28 300 / 0.1)",
+              }}
+            >
+              <img
+                src="/assets/uploads/porttt-1-1.jpeg"
+                alt="Abhishek Kumar"
+                className="w-full h-full object-cover"
+              />
+            </div>
 
-          {/* Floating skill badges */}
-          <div
-            className="absolute top-0 right-4 px-3 py-1.5 rounded-full text-xs font-semibold border animate-float pointer-events-none z-20"
-            style={{
-              background: "oklch(0.75 0.22 200 / 0.12)",
-              borderColor: "oklch(0.75 0.22 200 / 0.5)",
-              color: "oklch(0.75 0.22 200)",
-            }}
-          >
-            AI &amp; ML
-          </div>
-          <div
-            className="absolute top-1/3 -left-4 px-3 py-1.5 rounded-full text-xs font-semibold border animate-float pointer-events-none z-20"
-            style={{
-              background: "oklch(0.65 0.28 300 / 0.12)",
-              borderColor: "oklch(0.65 0.28 300 / 0.5)",
-              color: "oklch(0.75 0.22 300)",
-              animationDelay: "-2s",
-            }}
-          >
-            Python
-          </div>
-          <div
-            className="absolute bottom-1/3 right-2 px-3 py-1.5 rounded-full text-xs font-semibold border animate-float pointer-events-none z-20"
-            style={{
-              background: "oklch(0.75 0.22 200 / 0.12)",
-              borderColor: "oklch(0.75 0.22 200 / 0.5)",
-              color: "oklch(0.75 0.22 200)",
-              animationDelay: "-4s",
-            }}
-          >
-            JavaScript
-          </div>
-          <div
-            className="absolute bottom-4 left-8 px-3 py-1.5 rounded-full text-xs font-semibold border animate-float pointer-events-none z-20"
-            style={{
-              background: "oklch(0.65 0.28 300 / 0.12)",
-              borderColor: "oklch(0.65 0.28 300 / 0.5)",
-              color: "oklch(0.75 0.22 300)",
-              animationDelay: "-3s",
-            }}
-          >
-            Java
+            {/* Floating badges */}
+            <div
+              className="absolute -top-2 right-2 px-3 py-1.5 rounded-full text-xs font-semibold border animate-float pointer-events-none z-20"
+              style={{
+                background: "oklch(0.65 0.28 300 / 0.15)",
+                borderColor: "oklch(0.65 0.28 300 / 0.6)",
+                color: "oklch(0.85 0.2 300)",
+                boxShadow: "0 4px 16px oklch(0.65 0.28 300 / 0.25)",
+              }}
+            >
+              AI &amp; ML
+            </div>
+            <div
+              className="absolute bottom-6 -right-4 px-3 py-1.5 rounded-full text-xs font-semibold border animate-float pointer-events-none z-20"
+              style={{
+                background: "oklch(0.12 0.03 270 / 0.9)",
+                borderColor: "oklch(0.28 0.06 275)",
+                color: "oklch(0.72 0.04 270)",
+                animationDelay: "-1.5s",
+              }}
+            >
+              LPU
+            </div>
+            <div
+              className="absolute bottom-1/3 -left-6 px-3 py-1.5 rounded-full text-xs font-semibold border animate-float pointer-events-none z-20"
+              style={{
+                background: "oklch(0.75 0.22 200 / 0.12)",
+                borderColor: "oklch(0.75 0.22 200 / 0.5)",
+                color: "oklch(0.75 0.22 200)",
+                animationDelay: "-3s",
+              }}
+            >
+              Full-Stack Dev
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-muted-foreground z-10">
-        <span className="text-xs">Scroll</span>
-        <div className="w-px h-12 bg-gradient-to-b from-muted-foreground to-transparent" />
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 z-10">
+        <span
+          className="text-xs font-medium tracking-widest uppercase"
+          style={{ color: "oklch(0.62 0.04 270 / 0.7)" }}
+        >
+          Scroll
+        </span>
+        <div className="scroll-mouse" />
       </div>
     </section>
   );
 }
 
-// ─── About ────────────────────────────────────────────────────────────────────
+// ─── Skills ───────────────────────────────────────────────────────────────────
 
-const STAT_LIST = [
-  { icon: <Code2 size={20} />, value: "2", label: "Projects" },
-  { icon: <GraduationCap size={20} />, value: "B.Tech", label: "AI & ML" },
-  { icon: <Briefcase size={20} />, value: "7+", label: "Tech Skills" },
+const CATEGORY_ICONS: Record<string, React.ReactNode> = {
+  Development: <Code2 size={22} />,
+  "Tools & Platforms": <Wrench size={22} />,
+  "AI & Machine Learning": <Brain size={22} />,
+};
+
+const CATEGORY_COLORS = [
+  {
+    icon: "oklch(0.65 0.28 300)",
+    border: "oklch(0.65 0.28 300 / 0.25)",
+    tag: {
+      bg: "oklch(0.65 0.28 300 / 0.1)",
+      border: "oklch(0.65 0.28 300 / 0.3)",
+      text: "oklch(0.8 0.2 300)",
+    },
+  },
+  {
+    icon: "oklch(0.75 0.22 60)",
+    border: "oklch(0.75 0.22 60 / 0.25)",
+    tag: {
+      bg: "oklch(0.75 0.22 60 / 0.1)",
+      border: "oklch(0.75 0.22 60 / 0.3)",
+      text: "oklch(0.78 0.18 60)",
+    },
+  },
+  {
+    icon: "oklch(0.75 0.22 200)",
+    border: "oklch(0.75 0.22 200 / 0.25)",
+    tag: {
+      bg: "oklch(0.75 0.22 200 / 0.1)",
+      border: "oklch(0.75 0.22 200 / 0.3)",
+      text: "oklch(0.75 0.22 200)",
+    },
+  },
 ];
 
-function About() {
+function Skills() {
   return (
-    <Section id="about" className="py-24">
+    <Section id="skills" className="py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <div className="space-y-6">
-            <div
-              className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest"
-              style={{ color: "oklch(0.75 0.22 300)" }}
-            >
-              <span
-                className="w-8 h-px"
-                style={{
-                  background:
-                    "linear-gradient(90deg, oklch(0.65 0.28 300), oklch(0.75 0.22 200))",
-                }}
-              />
-              About Me
-            </div>
-            <h2 className="text-4xl sm:text-5xl font-bold font-display">
-              Building with{" "}
-              <span className="gradient-text">purpose &amp; craft</span>
-            </h2>
-            <p className="text-muted-foreground leading-relaxed text-lg">
-              B.Tech AI &amp; ML student at Lovely Professional University with
-              expertise in Python, Java, JavaScript, and C++. Currently serving
-              as{" "}
-              <span className="text-foreground font-medium">
-                Marketing Lead at EventViewz
-              </span>
-              , combining technical skills with strategic thinking.
-            </p>
-            <p className="text-muted-foreground leading-relaxed">
-              Passionate about building intelligent solutions, solving complex
-              problems, and creating real-world impact through machine learning
-              and AI-driven technologies.
-            </p>
-          </div>
+        <SectionHeader
+          label="TECHNICAL EXPERTISE"
+          title="Skills & Technologies"
+          subtitle="My technical toolkit — programming languages, frameworks, and AI/ML expertise."
+          num="01"
+        />
 
-          <div className="grid grid-cols-3 gap-4">
-            {STAT_LIST.map((stat) => (
+        <div className="mt-16 grid md:grid-cols-3 gap-6">
+          {Object.entries(SKILLS).map(([category, skills], i) => {
+            const catColor = CATEGORY_COLORS[i % CATEGORY_COLORS.length];
+            const icon = CATEGORY_ICONS[category];
+            return (
               <div
-                key={stat.label}
-                className="glass-card card-hover glow-border-primary flex flex-col items-center justify-center p-6 rounded-2xl text-center"
+                key={category}
+                className="glass-card card-hover rounded-2xl p-6 relative overflow-hidden"
+                data-ocid={`skills.item.${i + 1}`}
               >
-                <div className="mb-3" style={{ color: "oklch(0.75 0.22 300)" }}>
-                  {stat.icon}
+                <div
+                  className="absolute top-0 left-0 right-0 h-0.5"
+                  style={{
+                    background: `linear-gradient(90deg, ${catColor.icon}, transparent)`,
+                  }}
+                />
+                <div className="flex items-center gap-3 mb-5">
+                  <div
+                    className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                    style={{
+                      background: `${catColor.icon.replace(")", " / 0.15)")}`,
+                      border: `1px solid ${catColor.border}`,
+                    }}
+                  >
+                    <span style={{ color: catColor.icon }}>{icon}</span>
+                  </div>
+                  <h3
+                    className="font-bold font-display text-sm uppercase tracking-wide"
+                    style={{ color: catColor.icon }}
+                  >
+                    {category}
+                  </h3>
                 </div>
-                <div className="text-3xl font-bold font-display gradient-text mb-1">
-                  {stat.value}
-                </div>
-                <div className="text-xs text-muted-foreground font-medium">
-                  {stat.label}
+                <div className="flex flex-wrap gap-2">
+                  {skills.map((skill) => (
+                    <span
+                      key={skill}
+                      className="px-3 py-1.5 rounded-full text-xs font-medium border transition-all duration-200 hover:scale-105 cursor-default"
+                      style={{
+                        background: catColor.tag.bg,
+                        borderColor: catColor.tag.border,
+                        color: catColor.tag.text,
+                      }}
+                    >
+                      {skill}
+                    </span>
+                  ))}
                 </div>
               </div>
-            ))}
-          </div>
+            );
+          })}
         </div>
       </div>
     </Section>
   );
 }
 
-// ─── Work / Projects ──────────────────────────────────────────────────────────
+// ─── Training ─────────────────────────────────────────────────────────────────
 
-function Work() {
+function CurrentLearning() {
   return (
-    <Section id="work" className="py-24">
+    <Section id="current-learning" className="py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeader label="Featured Projects" title="Work" />
+        <SectionHeader
+          label="LEARNING & GROWTH"
+          title="My Training"
+          subtitle="Continuous learning and skill development programs."
+          num="02"
+        />
 
-        <div className="grid md:grid-cols-2 gap-6 mt-12">
+        <div className="mt-16 max-w-3xl">
+          {TRAINING.map((item, i) => (
+            <div
+              key={item.title}
+              className="glass-card card-hover flex gap-6 p-8 rounded-2xl relative overflow-hidden"
+              data-ocid={`training.item.${i + 1}`}
+            >
+              <div
+                className="absolute top-0 left-0 right-0 h-0.5"
+                style={{
+                  background:
+                    "linear-gradient(90deg, oklch(0.75 0.22 200), oklch(0.65 0.28 300))",
+                }}
+              />
+              <div
+                className="flex-shrink-0 w-14 h-14 rounded-2xl flex items-center justify-center"
+                style={{ background: "oklch(0.75 0.22 200 / 0.15)" }}
+              >
+                <BookOpen size={24} style={{ color: "oklch(0.75 0.22 200)" }} />
+              </div>
+              <div className="flex-1">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 mb-1">
+                  <h3 className="font-bold font-display text-foreground text-lg">
+                    {item.title}
+                  </h3>
+                  <span className="text-xs text-muted-foreground whitespace-nowrap">
+                    {item.period}
+                  </span>
+                </div>
+                <p
+                  className="text-sm font-semibold mb-3"
+                  style={{ color: "oklch(0.75 0.22 200)" }}
+                >
+                  {item.org}
+                </p>
+                <p className="text-muted-foreground text-sm leading-relaxed">
+                  {item.description}
+                </p>
+                {item.downloadUrl && (
+                  <a
+                    href={item.downloadUrl}
+                    download
+                    className="inline-flex items-center gap-1.5 mt-4 text-xs font-semibold px-4 py-2 btn-outline"
+                    data-ocid={`training.download.${i + 1}`}
+                  >
+                    <Download size={12} />
+                    Download Certificate
+                  </a>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </Section>
+  );
+}
+
+// ─── Projects ────────────────────────────────────────────────────────────────
+
+function Projects() {
+  return (
+    <Section id="projects" className="py-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionHeader
+          label="FEATURED WORK"
+          title="My Projects"
+          subtitle="A selection of projects I've built — from tools to web apps."
+          num="03"
+        />
+
+        <div className="grid md:grid-cols-2 gap-6 mt-16">
           {PROJECTS.map((project, i) => (
             <div
               key={project.title}
-              className="group glass-card card-hover rounded-2xl overflow-hidden flex flex-col"
-              data-ocid={`work.item.${i + 1}`}
+              className="group glass-card card-hover rounded-2xl overflow-hidden flex flex-col relative"
+              data-ocid={`projects.item.${i + 1}`}
             >
-              <div className="p-6 flex-1">
+              <div
+                className="absolute top-0 left-0 right-0 h-0.5"
+                style={{
+                  background:
+                    i % 2 === 0
+                      ? "linear-gradient(90deg, oklch(0.65 0.28 300), oklch(0.75 0.22 200))"
+                      : "linear-gradient(90deg, oklch(0.75 0.22 200), oklch(0.65 0.28 300))",
+                }}
+              />
+              <div className="p-6 flex-1 pt-7">
                 <div className="flex items-start justify-between mb-4">
                   <div
                     className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl"
@@ -662,15 +991,8 @@ function Work() {
                     {project.period}
                   </span>
                 </div>
-                <h3
-                  className="text-xl font-bold font-display mb-3 text-foreground group-hover:text-transparent group-hover:bg-clip-text transition-colors"
-                  style={{
-                    WebkitTextFillColor: undefined,
-                  }}
-                >
-                  <span className="group-hover:gradient-text">
-                    {project.title}
-                  </span>
+                <h3 className="text-xl font-bold font-display mb-3 text-foreground">
+                  {project.title}
                 </h3>
                 <p className="text-muted-foreground text-sm leading-relaxed mb-5">
                   {project.description}
@@ -698,12 +1020,9 @@ function Work() {
                 rel="noreferrer"
                 className="flex items-center justify-between px-6 py-4 border-t group/link hover:bg-[oklch(0.65_0.28_300/0.05)] transition-colors"
                 style={{ borderColor: "oklch(0.22 0.05 275 / 0.8)" }}
-                data-ocid={`work.link.${i + 1}`}
+                data-ocid={`projects.link.${i + 1}`}
               >
-                <span
-                  className="flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors"
-                  style={{}}
-                >
+                <span className="flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors">
                   <SiGithub size={16} />
                   View on GitHub
                 </span>
@@ -726,116 +1045,82 @@ function Certifications() {
   return (
     <Section id="certifications" className="py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeader label="Credentials" title="Certifications" />
+        <SectionHeader
+          label="CREDENTIALS"
+          title="My Certifications"
+          subtitle="Professional certificates from leading platforms and institutions."
+          num="04"
+        />
 
-        <div className="grid gap-4 mt-12">
+        <div className="grid sm:grid-cols-2 gap-5 mt-16">
           {CERTIFICATIONS.map((cert, i) => (
             <div
               key={cert.title}
-              className="group glass-card card-hover flex flex-col sm:flex-row gap-4 p-6 rounded-2xl"
+              className="group glass-card card-hover rounded-2xl overflow-hidden flex flex-col relative"
               data-ocid={`certifications.item.${i + 1}`}
             >
+              {/* Certificate preview banner */}
               <div
-                className="flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center"
-                style={{ background: "oklch(0.65 0.28 300 / 0.15)" }}
+                className="w-full h-28 flex items-center justify-center relative overflow-hidden"
+                style={{
+                  background: `linear-gradient(135deg,
+                    oklch(${0.12 + (i % 3) * 0.02} ${0.04 + (i % 2) * 0.02} ${270 + i * 15}),
+                    oklch(${0.18 + (i % 2) * 0.02} ${0.06 + (i % 3) * 0.02} ${290 + i * 10})
+                  )`,
+                }}
               >
-                <Award size={18} style={{ color: "oklch(0.75 0.22 300)" }} />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 mb-1">
-                  <h3
-                    className="font-semibold text-foreground text-sm leading-snug pr-4"
-                    style={{ transition: "color 0.2s" }}
+                <div
+                  className="absolute inset-0 opacity-30"
+                  style={{
+                    background:
+                      "repeating-linear-gradient(45deg, transparent, transparent 10px, oklch(1 0 0 / 0.02) 10px, oklch(1 0 0 / 0.02) 20px)",
+                  }}
+                />
+                <div className="relative z-10 flex flex-col items-center gap-2">
+                  <Award
+                    size={36}
+                    style={{ color: "oklch(0.75 0.22 300 / 0.9)" }}
+                  />
+                  <span
+                    className="text-xs font-bold uppercase tracking-wider"
+                    style={{ color: "oklch(0.75 0.22 300 / 0.7)" }}
                   >
-                    {cert.title}
-                  </h3>
-                  <span className="text-xs text-muted-foreground whitespace-nowrap">
+                    Certificate
+                  </span>
+                </div>
+              </div>
+
+              <div className="p-5 flex-1 flex flex-col">
+                <div className="flex items-start gap-3 mb-2">
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-foreground text-sm leading-snug">
+                      {cert.title}
+                    </h3>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between mb-2">
+                  <p
+                    className="text-xs font-semibold"
+                    style={{ color: "oklch(0.75 0.22 300)" }}
+                  >
+                    {cert.issuer}
+                  </p>
+                  <span className="text-xs text-muted-foreground">
                     {cert.date}
                   </span>
                 </div>
-                <p
-                  className="text-xs font-medium mb-2"
-                  style={{ color: "oklch(0.75 0.22 300)" }}
-                >
-                  {cert.issuer}
-                </p>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-muted-foreground leading-relaxed flex-1">
                   {cert.description}
                 </p>
                 {cert.downloadUrl && (
                   <a
                     href={cert.downloadUrl}
                     download
-                    className="inline-flex items-center gap-1.5 mt-3 text-xs font-semibold px-4 py-1.5 btn-outline"
+                    className="inline-flex items-center gap-1.5 mt-4 text-xs font-semibold px-4 py-1.5 btn-outline self-start"
                     data-ocid={`certifications.download.${i + 1}`}
                   >
                     <Download size={12} />
                     Download
-                  </a>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </Section>
-  );
-}
-
-// ─── Training ─────────────────────────────────────────────────────────────────
-
-function Training() {
-  return (
-    <Section id="training" className="py-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeader label="Learning" title="Training" />
-
-        <div className="mt-12 max-w-3xl">
-          {TRAINING.map((item, i) => (
-            <div
-              key={item.title}
-              className="glass-card card-hover flex gap-6 p-8 rounded-2xl"
-              data-ocid={`training.item.${i + 1}`}
-            >
-              <div
-                className="flex-shrink-0 w-14 h-14 rounded-2xl flex items-center justify-center"
-                style={{ background: "oklch(0.75 0.22 200 / 0.15)" }}
-              >
-                <BookOpen size={24} style={{ color: "oklch(0.75 0.22 200)" }} />
-              </div>
-              <div>
-                <div className="flex flex-wrap items-center gap-3 mb-2">
-                  <h3 className="text-lg font-bold font-display text-foreground">
-                    {item.title}
-                  </h3>
-                  <span
-                    className="text-xs px-2.5 py-1 rounded-full font-medium"
-                    style={{
-                      background: "oklch(0.75 0.22 200 / 0.12)",
-                      color: "oklch(0.75 0.22 200)",
-                    }}
-                  >
-                    {item.period}
-                  </span>
-                </div>
-                <p
-                  className="text-sm font-medium mb-3"
-                  style={{ color: "oklch(0.75 0.22 200)" }}
-                >
-                  {item.org}
-                </p>
-                <p className="text-muted-foreground leading-relaxed">
-                  {item.description}
-                </p>
-                {item.downloadUrl && (
-                  <a
-                    href={item.downloadUrl}
-                    download
-                    className="inline-flex items-center gap-1.5 mt-4 text-xs font-semibold px-4 py-2 btn-outline"
-                    data-ocid={`training.download.${i + 1}`}
-                  >
-                    <Download size={12} />
-                    Download Certificate
                   </a>
                 )}
               </div>
@@ -853,9 +1138,14 @@ function Achievements() {
   return (
     <Section id="achievements" className="py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeader label="Recognition" title="Achievements" />
+        <SectionHeader
+          label="RECOGNITION"
+          title="My Achievements"
+          subtitle="Awards and recognition for creative and technical excellence."
+          num="05"
+        />
 
-        <div className="mt-12 max-w-3xl">
+        <div className="mt-16 max-w-3xl">
           <div
             className="glass-card card-hover glow-border-primary p-8 rounded-2xl relative overflow-hidden"
             data-ocid="achievements.item.1"
@@ -863,6 +1153,13 @@ function Achievements() {
             <div
               className="absolute top-0 right-0 w-40 h-40 rounded-full blur-3xl opacity-20 pointer-events-none"
               style={{ background: "oklch(0.65 0.28 300)" }}
+            />
+            <div
+              className="absolute top-0 left-0 right-0 h-0.5"
+              style={{
+                background:
+                  "linear-gradient(90deg, oklch(0.65 0.28 300), oklch(0.75 0.22 200))",
+              }}
             />
             <div className="flex items-start gap-5 relative">
               <div
@@ -885,7 +1182,7 @@ function Achievements() {
                   LPU Freshmen League 2023
                 </h3>
                 <p
-                  className="text-sm font-medium mb-3"
+                  className="text-sm font-semibold mb-3"
                   style={{ color: "oklch(0.75 0.22 300)" }}
                 >
                   Reel-Making Competition · Lovely Professional University
@@ -906,72 +1203,129 @@ function Achievements() {
   );
 }
 
-// ─── Skills ───────────────────────────────────────────────────────────────────
+// ─── Education ────────────────────────────────────────────────────────────────
 
-const SKILL_COLORS: Record<
-  string,
-  { bg: string; border: string; text: string }
-> = {
-  Python: {
-    bg: "oklch(0.75 0.22 200 / 0.1)",
-    border: "oklch(0.75 0.22 200 / 0.4)",
-    text: "oklch(0.75 0.22 200)",
-  },
-  JavaScript: {
-    bg: "oklch(0.75 0.22 200 / 0.1)",
-    border: "oklch(0.75 0.22 200 / 0.4)",
-    text: "oklch(0.85 0.18 200)",
-  },
-  Java: {
-    bg: "oklch(0.65 0.28 300 / 0.1)",
-    border: "oklch(0.65 0.28 300 / 0.4)",
-    text: "oklch(0.75 0.22 300)",
-  },
-  "C++": {
-    bg: "oklch(0.65 0.28 300 / 0.1)",
-    border: "oklch(0.65 0.28 300 / 0.4)",
-    text: "oklch(0.75 0.22 300)",
-  },
-};
-
-const DEFAULT_SKILL_COLOR = {
-  bg: "oklch(0.16 0.04 275 / 0.6)",
-  border: "oklch(0.28 0.06 275)",
-  text: "oklch(0.72 0.04 270)",
-};
-
-function SkillBadge({ skill }: { skill: string }) {
-  const color = SKILL_COLORS[skill] ?? DEFAULT_SKILL_COLOR;
+function Education() {
   return (
-    <span
-      className="px-4 py-2 rounded-full text-sm font-medium border transition-all duration-200 hover:scale-105 cursor-default glow-border-primary"
-      style={{
-        background: color.bg,
-        borderColor: color.border,
-        color: color.text,
-      }}
-    >
-      {skill}
-    </span>
-  );
-}
-
-function Skills() {
-  return (
-    <Section id="skills" className="py-24">
+    <Section id="education" className="py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeader label="Technical" title="Skills" />
+        <SectionHeader
+          label="ACADEMIC BACKGROUND"
+          title="My Education"
+          subtitle="My academic journey from school to university."
+          num="06"
+        />
 
-        <div className="mt-12 space-y-10">
-          {Object.entries(SKILLS).map(([category, skills], i) => (
-            <div key={category} data-ocid={`skills.item.${i + 1}`}>
-              <h3 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground mb-4">
-                {category}
-              </h3>
-              <div className="flex flex-wrap gap-3">
-                {skills.map((skill) => (
-                  <SkillBadge key={skill} skill={skill} />
-                ))}
+        <div className="mt-16 max-w-3xl space-y-0 relative">
+          {/* Vertical timeline line */}
+          <div
+            className="absolute left-7 top-8 bottom-8 w-0.5 hidden sm:block"
+            style={{
+              background:
+                "linear-gradient(180deg, oklch(0.65 0.28 300), oklch(0.75 0.22 200), oklch(0.65 0.28 300 / 0.2))",
+            }}
+          />
+
+          {EDUCATION.map((edu, i) => (
+            <div
+              key={`${edu.institution}-${edu.degree}`}
+              className="relative flex gap-6 pb-8 last:pb-0"
+              data-ocid={`education.item.${i + 1}`}
+            >
+              {/* Timeline dot */}
+              <div className="flex-shrink-0 flex flex-col items-center z-10">
+                <div
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl border-2 flex-shrink-0"
+                  style={{
+                    background: edu.current
+                      ? "oklch(0.65 0.28 300 / 0.15)"
+                      : "oklch(0.75 0.22 200 / 0.1)",
+                    borderColor: edu.current
+                      ? "oklch(0.65 0.28 300 / 0.5)"
+                      : "oklch(0.75 0.22 200 / 0.3)",
+                    boxShadow: edu.current
+                      ? "0 0 20px oklch(0.65 0.28 300 / 0.25)"
+                      : "none",
+                  }}
+                >
+                  {edu.icon}
+                </div>
+              </div>
+
+              {/* Content card */}
+              <div className="flex-1 glass-card card-hover rounded-2xl p-6 relative overflow-hidden">
+                <div
+                  className="absolute top-0 left-0 right-0 h-0.5"
+                  style={{
+                    background: edu.current
+                      ? "linear-gradient(90deg, oklch(0.65 0.28 300), oklch(0.75 0.22 200))"
+                      : "linear-gradient(90deg, oklch(0.75 0.22 200), oklch(0.65 0.28 300 / 0.4))",
+                  }}
+                />
+
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-2">
+                  <div className="flex-1">
+                    <h3 className="font-bold font-display text-foreground text-base leading-snug">
+                      {edu.degree}
+                    </h3>
+                    <p
+                      className="text-sm font-semibold mt-0.5"
+                      style={{
+                        color: edu.current
+                          ? "oklch(0.75 0.22 300)"
+                          : "oklch(0.65 0.2 240)",
+                      }}
+                    >
+                      {edu.institution}
+                    </p>
+                  </div>
+                  <div className="flex flex-col items-end gap-1 flex-shrink-0">
+                    <span
+                      className="text-xs font-medium px-3 py-1 rounded-full border whitespace-nowrap"
+                      style={{
+                        background: edu.current
+                          ? "oklch(0.65 0.28 300 / 0.1)"
+                          : "oklch(0.16 0.04 275 / 0.5)",
+                        borderColor: edu.current
+                          ? "oklch(0.65 0.28 300 / 0.4)"
+                          : "oklch(0.28 0.06 275)",
+                        color: edu.current
+                          ? "oklch(0.75 0.22 300)"
+                          : "oklch(0.72 0.04 270)",
+                      }}
+                    >
+                      {edu.period}
+                    </span>
+                    {edu.current && (
+                      <span
+                        className="text-xs font-bold px-2.5 py-0.5 rounded-full"
+                        style={{
+                          background: "oklch(0.55 0.22 150 / 0.15)",
+                          color: "oklch(0.72 0.18 150)",
+                        }}
+                      >
+                        ● Present
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-1.5 text-xs text-muted-foreground mb-2">
+                  <MapPin size={11} />
+                  {edu.location}
+                </div>
+
+                <div
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full"
+                  style={{
+                    background: "oklch(0.65 0.28 300 / 0.08)",
+                    borderColor: "oklch(0.65 0.28 300 / 0.3)",
+                    color: "oklch(0.75 0.22 300)",
+                    border: "1px solid",
+                  }}
+                >
+                  {edu.detail}
+                </div>
               </div>
             </div>
           ))}
@@ -987,17 +1341,26 @@ function Contact() {
   return (
     <Section id="contact" className="py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <SectionHeader label="Say Hello" title="Let's work together" />
+        <SectionHeader
+          label="GET IN TOUCH"
+          title="Let's Connect"
+          subtitle="Open to opportunities, collaborations, and meaningful conversations."
+          num="07"
+        />
 
-        <div className="mt-12 grid lg:grid-cols-2 gap-12 items-center">
+        <div className="mt-16 grid lg:grid-cols-2 gap-12 items-start">
+          {/* Left: social cards */}
           <div className="space-y-4">
-            <p className="text-muted-foreground leading-relaxed text-lg">
+            <h3 className="text-2xl font-bold font-display text-foreground">
+              Let&apos;s <span className="gradient-text">connect</span>
+            </h3>
+            <p className="text-muted-foreground leading-relaxed">
               Interested in collaborating or discussing tech? Feel free to reach
               out via email or LinkedIn. I&apos;m always open to new
               opportunities and conversations.
             </p>
 
-            <div className="space-y-3 mt-8">
+            <div className="space-y-3 mt-6">
               {CONTACT_LINKS.map((link, i) => (
                 <a
                   key={link.label}
@@ -1008,63 +1371,191 @@ function Contact() {
                   data-ocid={`contact.link.${i + 1}`}
                 >
                   <div
-                    className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
+                    className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform group-hover:scale-110"
                     style={{
-                      background: link.color.replace(")", " / 0.15)"),
+                      background: link.color.replace(")", " / 0.12)"),
                     }}
                   >
                     <span style={{ color: link.color }}>{link.icon}</span>
                   </div>
                   <div>
-                    <div className="text-xs text-muted-foreground mb-0.5">
+                    <div className="text-sm font-semibold text-foreground">
                       {link.label}
                     </div>
-                    <div className="text-sm font-medium text-foreground">
-                      {link.value}
+                    <div className="text-xs text-muted-foreground">
+                      {link.sub}
                     </div>
                   </div>
                   <ExternalLink
                     size={14}
-                    className="ml-auto text-muted-foreground"
+                    className="ml-auto text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity"
                   />
                 </a>
               ))}
             </div>
           </div>
 
-          {/* Right decorative: spinning ring with profile photo */}
-          <div className="hidden lg:flex items-center justify-center">
-            <div className="relative w-72 h-72 flex items-center justify-center">
-              {/* Spinning conic ring */}
-              <div
-                className="absolute inset-0 rounded-full animate-spin-slow pointer-events-none"
-                style={{
-                  background:
-                    "conic-gradient(from 0deg, oklch(0.65 0.28 300 / 0), oklch(0.65 0.28 300 / 0.6), oklch(0.75 0.22 200 / 0.6), oklch(0.75 0.22 200 / 0.2), oklch(0.65 0.28 300 / 0))",
-                  padding: "2px",
-                }}
-              />
-              {/* Inner circle with photo */}
-              <div
-                className="w-60 h-60 rounded-full overflow-hidden relative z-10"
-                style={{
-                  border: "2px solid oklch(0.22 0.05 275)",
-                  boxShadow: "0 0 40px oklch(0.65 0.28 300 / 0.2)",
-                }}
-              >
-                <img
-                  src="/assets/uploads/porttt-1.jpeg"
-                  alt="Abhishek Kumar"
-                  className="w-full h-full object-cover"
+          {/* Right: contact form card */}
+          <div className="glass-card glow-border-primary rounded-2xl p-8 relative overflow-hidden">
+            <div
+              className="absolute top-0 left-0 right-0 h-0.5"
+              style={{
+                background:
+                  "linear-gradient(90deg, oklch(0.65 0.28 300), oklch(0.75 0.22 200))",
+              }}
+            />
+            <div
+              className="absolute bottom-0 right-0 w-48 h-48 rounded-full blur-3xl opacity-15 pointer-events-none"
+              style={{ background: "oklch(0.65 0.28 300)" }}
+            />
+            <h3 className="text-2xl font-bold font-display mb-2">
+              Send a <span className="gradient-text">Message</span>
+            </h3>
+            <p className="text-muted-foreground text-sm leading-relaxed mb-6">
+              Fill in the form below and I&apos;ll get back to you as soon as
+              possible.
+            </p>
+
+            <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
+              <div>
+                <label
+                  htmlFor="contact-name"
+                  className="block text-xs font-semibold text-muted-foreground mb-1.5 uppercase tracking-wide"
+                >
+                  Full Name
+                </label>
+                <input
+                  id="contact-name"
+                  type="text"
+                  placeholder="Your name"
+                  className="w-full px-4 py-3 rounded-xl text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 transition-all"
+                  style={
+                    {
+                      background: "oklch(0.11 0.03 275 / 0.6)",
+                      border: "1px solid oklch(0.28 0.06 275 / 0.7)",
+                      focusRingColor: "oklch(0.65 0.28 300)",
+                    } as React.CSSProperties
+                  }
+                  data-ocid="contact.input"
                 />
               </div>
-              {/* Label below */}
-              <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-center whitespace-nowrap">
-                <span className="text-xs font-semibold gradient-text">
-                  Open to work
-                </span>
+              <div>
+                <label
+                  htmlFor="contact-email"
+                  className="block text-xs font-semibold text-muted-foreground mb-1.5 uppercase tracking-wide"
+                >
+                  Email Address
+                </label>
+                <input
+                  id="contact-email"
+                  type="email"
+                  placeholder="your@email.com"
+                  className="w-full px-4 py-3 rounded-xl text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 transition-all"
+                  style={{
+                    background: "oklch(0.11 0.03 275 / 0.6)",
+                    border: "1px solid oklch(0.28 0.06 275 / 0.7)",
+                  }}
+                  data-ocid="contact.input"
+                />
               </div>
-            </div>
+              <div>
+                <label
+                  htmlFor="contact-message"
+                  className="block text-xs font-semibold text-muted-foreground mb-1.5 uppercase tracking-wide"
+                >
+                  Message
+                </label>
+                <textarea
+                  id="contact-message"
+                  rows={4}
+                  placeholder="Tell me about your project or opportunity..."
+                  className="w-full px-4 py-3 rounded-xl text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 transition-all resize-none"
+                  style={{
+                    background: "oklch(0.11 0.03 275 / 0.6)",
+                    border: "1px solid oklch(0.28 0.06 275 / 0.7)",
+                  }}
+                  data-ocid="contact.textarea"
+                />
+              </div>
+              <a
+                href="mailto:abhishek7783patel@gmail.com"
+                className="flex items-center justify-center gap-2 w-full py-3.5 text-sm font-semibold btn-primary"
+                data-ocid="contact.submit_button"
+              >
+                <Mail size={16} />
+                Send Message
+              </a>
+            </form>
+          </div>
+        </div>
+      </div>
+    </Section>
+  );
+}
+
+// ─── Resume Section ───────────────────────────────────────────────────────────
+
+function ResumeSection() {
+  return (
+    <Section id="resume" className="py-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionHeader
+          label="DOWNLOAD"
+          title="My Resume"
+          subtitle="A complete overview of my skills, education, and projects."
+          num="08"
+        />
+
+        <div className="mt-16 flex flex-col items-center text-center max-w-2xl mx-auto">
+          <div
+            className="w-20 h-20 rounded-3xl flex items-center justify-center mb-6"
+            style={{
+              background:
+                "linear-gradient(135deg, oklch(0.65 0.28 300 / 0.2), oklch(0.75 0.22 200 / 0.2))",
+              border: "1px solid oklch(0.65 0.28 300 / 0.3)",
+              boxShadow: "0 0 30px oklch(0.65 0.28 300 / 0.15)",
+            }}
+          >
+            <Download size={32} style={{ color: "oklch(0.75 0.22 300)" }} />
+          </div>
+
+          <h3 className="text-2xl font-bold font-display text-foreground mb-4">
+            Get a copy of my <span className="gradient-text">full resume</span>
+          </h3>
+          <p className="text-muted-foreground leading-relaxed mb-8">
+            My resume covers my academic background, technical skills,
+            certifications, projects, and achievements. Download it to learn
+            more about my qualifications and experience.
+          </p>
+
+          <a
+            href="/assets/uploads/resumeeeeeeeeeee-1.pdf"
+            download
+            className="inline-flex items-center gap-3 px-10 py-4 text-base font-semibold btn-primary"
+            data-ocid="resume.primary_button"
+          >
+            <Download size={18} />
+            Download Resume
+          </a>
+
+          <div className="mt-8 grid grid-cols-3 gap-4 w-full">
+            {[
+              { label: "B.Tech CSE", sub: "Lovely Professional University" },
+              { label: "6+ Certs", sub: "Online & Professional" },
+              { label: "2+ Projects", sub: "Open Source" },
+            ].map((item) => (
+              <div
+                key={item.label}
+                className="glass-card rounded-xl p-4 text-center"
+              >
+                <div className="font-bold font-display gradient-text text-lg">
+                  {item.label}
+                </div>
+                <div className="text-xs text-muted-foreground mt-1">
+                  {item.sub}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -1081,14 +1572,11 @@ function Footer() {
 
   return (
     <footer
-      className="border-t py-10"
-      style={{
-        borderColor: "oklch(0.22 0.05 275)",
-        background: "oklch(0.09 0.025 270)",
-      }}
+      className="border-t py-12"
+      style={{ borderColor: "oklch(0.18 0.04 275)" }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-3">
             <div
               className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold text-white"
@@ -1097,15 +1585,15 @@ function Footer() {
                   "linear-gradient(135deg, oklch(0.65 0.28 300), oklch(0.75 0.22 200))",
               }}
             >
-              AK
+              &lt;/&gt;
             </div>
             <span className="font-display font-bold text-foreground">
               Abhishek Kumar
             </span>
           </div>
 
-          <div className="flex items-center gap-6">
-            {NAV_LINKS.slice(0, 4).map((link) => (
+          <div className="flex items-center gap-4">
+            {NAV_LINKS.slice(0, 5).map((link) => (
               <button
                 key={link.href}
                 type="button"
@@ -1198,11 +1686,13 @@ function BackToTop() {
 // ─── App ──────────────────────────────────────────────────────────────────────
 
 export default function App() {
+  const { theme, toggle } = useTheme();
+
   const metaRef = useRef(false);
   useEffect(() => {
     if (metaRef.current) return;
     metaRef.current = true;
-    document.title = "Abhishek Kumar — Creative Developer & Designer";
+    document.title = "Abhishek Kumar — AI & ML Developer";
     const desc = document.querySelector("meta[name='description']");
     if (desc)
       desc.setAttribute(
@@ -1213,19 +1703,19 @@ export default function App() {
 
   return (
     <div className="min-h-screen relative">
-      {/* Global subtle grid layer */}
       <div className="global-grid-layer" />
       <div className="relative z-10">
-        <Navbar />
+        <Navbar theme={theme} toggleTheme={toggle} />
         <main>
           <Hero />
-          <About />
-          <Work />
-          <Certifications />
-          <Training />
-          <Achievements />
           <Skills />
+          <CurrentLearning />
+          <Projects />
+          <Certifications />
+          <Achievements />
+          <Education />
           <Contact />
+          <ResumeSection />
         </main>
         <Footer />
         <BackToTop />
