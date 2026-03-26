@@ -7,6 +7,7 @@ import {
   Code2,
   Download,
   ExternalLink,
+  Globe,
   GraduationCap,
   Heart,
   Mail,
@@ -176,14 +177,17 @@ const EDUCATION = [
 ];
 
 const SKILLS = {
-  Development: ["Python", "JavaScript", "Java", "C++", "C", "SQL"],
-  "Tools & Platforms": ["Git", "GitHub", "VS Code", "Power BI"],
-  "AI & Machine Learning": [
+  Languages: ["Python", "Java", "C", "C++", "SQL", "JavaScript"],
+  "AI / ML": [
+    "TensorFlow",
+    "Scikit-learn",
+    "NLP",
     "Machine Learning",
     "Deep Learning",
     "Data Analysis",
-    "TensorFlow",
   ],
+  Tools: ["Git", "GitHub", "VS Code", "Power BI", "Jupyter Notebook"],
+  "Web & Frameworks": ["React", "Node.js", "HTML", "CSS", "REST APIs"],
 };
 
 const CONTACT_LINKS = [
@@ -795,9 +799,10 @@ function Hero() {
 // ─── Skills ───────────────────────────────────────────────────────────────────
 
 const CATEGORY_ICONS: Record<string, React.ReactNode> = {
-  Development: <Code2 size={22} />,
-  "Tools & Platforms": <Wrench size={22} />,
-  "AI & Machine Learning": <Brain size={22} />,
+  Languages: <Code2 size={22} />,
+  "AI / ML": <Brain size={22} />,
+  Tools: <Wrench size={22} />,
+  "Web & Frameworks": <Globe size={22} />,
 };
 
 const CATEGORY_COLORS = [
@@ -828,6 +833,15 @@ const CATEGORY_COLORS = [
       text: "oklch(0.75 0.22 200)",
     },
   },
+  {
+    icon: "oklch(0.72 0.22 150)",
+    border: "oklch(0.72 0.22 150 / 0.25)",
+    tag: {
+      bg: "oklch(0.72 0.22 150 / 0.1)",
+      border: "oklch(0.72 0.22 150 / 0.3)",
+      text: "oklch(0.72 0.22 150)",
+    },
+  },
 ];
 
 function Skills() {
@@ -841,7 +855,7 @@ function Skills() {
           num="01"
         />
 
-        <div className="mt-16 grid md:grid-cols-3 gap-6">
+        <div className="mt-16 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {Object.entries(SKILLS).map(([category, skills], i) => {
             const catColor = CATEGORY_COLORS[i % CATEGORY_COLORS.length];
             const icon = CATEGORY_ICONS[category];
