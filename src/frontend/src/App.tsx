@@ -777,7 +777,7 @@ function Hero() {
                 animationDelay: "-3s",
               }}
             >
-              Full-Stack Dev
+              Programming Languages
             </div>
           </div>
         </div>
