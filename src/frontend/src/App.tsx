@@ -208,6 +208,13 @@ const CONTACT_LINKS = [
     color: "oklch(0.75 0.22 200)",
     sub: "abhishek7783patel@gmail.com",
   },
+  {
+    label: "Phone",
+    href: "tel:+919286222377",
+    icon: <Phone size={20} />,
+    color: "oklch(0.75 0.22 150)",
+    sub: "+91-9286222377",
+  },
 ];
 
 const ROLES = ["AI & ML Student", "Developer", "Marketing Lead"];
@@ -615,8 +622,9 @@ function Hero() {
             className="text-base text-muted-foreground max-w-lg leading-relaxed animate-fade-in-up"
             style={{ animationDelay: "0.3s" }}
           >
-            B.Tech AI &amp; ML student at LPU · Marketing Lead at EventViewz ·
-            Building intelligent solutions through code &amp; strategy
+            B.Tech student specializing in Artificial Intelligence &amp; Machine
+            Learning at LPU · Passionate about building intelligent systems,
+            exploring deep learning, and turning data into real-world solutions
           </p>
 
           {/* Social circles */}
@@ -660,6 +668,17 @@ function Hero() {
               aria-label="Email"
             >
               <Mail size={18} style={{ color: "oklch(0.75 0.22 200)" }} />
+            </a>
+            <a
+              href="tel:+919286222377"
+              className="social-circle-btn"
+              style={{
+                background: "oklch(0.75 0.22 150 / 0.1)",
+                borderColor: "oklch(0.75 0.22 150 / 0.4)",
+              }}
+              aria-label="Call"
+            >
+              <Phone size={18} style={{ color: "oklch(0.75 0.22 150)" }} />
             </a>
           </div>
 
@@ -716,7 +735,7 @@ function Hero() {
               }}
             >
               <img
-                src="/assets/uploads/porttt-1-1.jpeg"
+                src="/assets/uploads/abhi_picc-019d2b4a-e837-736e-ad80-19c9f7f76097-1.jpeg"
                 alt="Abhishek Kumar"
                 className="w-full h-full object-cover"
               />
@@ -1365,7 +1384,12 @@ function Contact() {
                 <a
                   key={link.label}
                   href={link.href}
-                  target={link.href.startsWith("mailto") ? undefined : "_blank"}
+                  target={
+                    link.href.startsWith("mailto") ||
+                    link.href.startsWith("tel")
+                      ? undefined
+                      : "_blank"
+                  }
                   rel="noreferrer"
                   className="glass-card card-hover flex items-center gap-4 p-4 rounded-xl group transition-all duration-200 hover:scale-[1.02]"
                   data-ocid={`contact.link.${i + 1}`}
@@ -1697,7 +1721,7 @@ export default function App() {
     if (desc)
       desc.setAttribute(
         "content",
-        "B.Tech AI & ML student at LPU | Marketing Lead at EventViewz | Building intelligent solutions through code & strategy",
+        "B.Tech student specializing in Artificial Intelligence & Machine Learning at LPU | Passionate about deep learning, data science, and building intelligent real-world solutions",
       );
   }, []);
 
