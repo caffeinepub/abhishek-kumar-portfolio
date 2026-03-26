@@ -217,7 +217,7 @@ const CONTACT_LINKS = [
   },
 ];
 
-const ROLES = ["AI & ML Student", "Developer", "Marketing Lead"];
+const ROLES = ["AI & ML Student", "Developer"];
 
 // ─── Scroll Reveal Section ────────────────────────────────────────────────────
 
