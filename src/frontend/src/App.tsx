@@ -418,7 +418,7 @@ function Navbar({
 
         <div className="hidden md:flex items-center gap-2">
           <a
-            href="/assets/uploads/abhishek_kumar_resume-019d4f86-0cf4-71b9-a8d5-68526953f37f.pdf"
+            href="/assets/abhishek_kumar_resume-019d4f86-0cf4-71b9-a8d5-68526953f37f.pdf"
             download
             className="flex items-center gap-1.5 px-5 py-2 text-sm font-semibold btn-outline"
             data-ocid="nav.secondary_button"
@@ -493,7 +493,7 @@ function Navbar({
             ))}
             <li className="pt-2">
               <a
-                href="/assets/uploads/abhishek_kumar_resume-019d4f86-0cf4-71b9-a8d5-68526953f37f.pdf"
+                href="/assets/abhishek_kumar_resume-019d4f86-0cf4-71b9-a8d5-68526953f37f.pdf"
                 download
                 className="flex items-center gap-2 text-sm font-semibold px-3 py-2 btn-outline w-full justify-center"
                 data-ocid="nav.secondary_button"
@@ -1816,7 +1816,7 @@ function ResumeSection() {
           </p>
 
           <a
-            href="/assets/uploads/abhishek_kumar_resume-019d4f86-0cf4-71b9-a8d5-68526953f37f.pdf"
+            href="/assets/abhishek_kumar_resume-019d4f86-0cf4-71b9-a8d5-68526953f37f.pdf"
             download
             className="inline-flex items-center gap-3 px-10 py-4 text-base font-semibold btn-primary"
             data-ocid="resume.primary_button"
