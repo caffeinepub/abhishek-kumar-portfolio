@@ -64,7 +64,6 @@ const NAV_LINKS = [
   { label: "Achievements", href: "#achievements" },
   { label: "Education", href: "#education" },
   { label: "Contact", href: "#contact" },
-  { label: "Experience", href: "#experience" },
   { label: "Resume", href: "#resume" },
 ];
 
@@ -194,7 +193,7 @@ const SKILLS = {
     "ROC-AUC",
   ],
   Tools: ["Git", "GitHub", "VS Code", "Excel", "Power BI"],
-  "Web & Data": ["HTML", "CSS", "Responsive Design"],
+  "Web & Frameworks": ["HTML", "CSS", "Responsive Design"],
 };
 
 const CONTACT_LINKS = [
