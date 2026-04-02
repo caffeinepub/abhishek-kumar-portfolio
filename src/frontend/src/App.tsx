@@ -64,25 +64,32 @@ const NAV_LINKS = [
   { label: "Achievements", href: "#achievements" },
   { label: "Education", href: "#education" },
   { label: "Contact", href: "#contact" },
+  { label: "Experience", href: "#experience" },
   { label: "Resume", href: "#resume" },
 ];
 
 const PROJECTS = [
   {
-    title: "Todo Task Manager",
+    title: "Fake Profile Detection System",
     period: "Feb – Mar 2025",
     description:
-      "A task-management website with clean UI, CRUD functionality, and responsive design. Built for efficient daily task organization with Local Storage persistence.",
-    tags: ["HTML", "CSS", "JavaScript", "Local Storage"],
-    github: "https://github.com/AbhishekPatel9305/Todo-Task-Manager",
-    icon: "✅",
+      "Designed and trained a Random Forest classifier using scikit-learn and pandas on a dataset of 10,000+ social media profiles, achieving ~94% accuracy. Performed feature engineering including null-ratio analysis, profile completeness scoring, and activity pattern extraction. Evaluated model performance using ROC-AUC score of 0.94 and 5-fold cross-validation.",
+    tags: [
+      "Python",
+      "scikit-learn",
+      "pandas",
+      "Random Forest",
+      "Machine Learning",
+    ],
+    github: "https://github.com/AbhishekPatel9305",
+    icon: "🤖",
   },
   {
     title: "Law Guide India",
     period: "Oct – Nov 2025",
     description:
-      "Legal awareness website providing simplified information on Indian laws with responsive design and user-friendly interface. Built for a hackathon.",
-    tags: ["HTML", "CSS", "JavaScript", "Responsive"],
+      "Developed a fully responsive legal awareness website to simplify access to Indian laws for the general public. Designed structured navigation covering 10+ legal categories including property, criminal, and consumer law, with a clean content hierarchy for non-legal audiences.",
+    tags: ["HTML", "CSS", "JavaScript", "Responsive Design"],
     github: "https://github.com/AbhishekPatel9305/Law-Guide-India",
     icon: "⚖️",
   },
@@ -177,17 +184,17 @@ const EDUCATION = [
 ];
 
 const SKILLS = {
-  Languages: ["Python", "Java", "C", "C++", "SQL", "JavaScript"],
+  "Programming Languages": ["Python", "C", "C++", "JavaScript"],
   "AI / ML": [
-    "TensorFlow",
     "Scikit-learn",
-    "NLP",
+    "Random Forest",
     "Machine Learning",
-    "Deep Learning",
+    "pandas",
     "Data Analysis",
+    "ROC-AUC",
   ],
-  Tools: ["Git", "GitHub", "VS Code", "Power BI", "Jupyter Notebook"],
-  "Web & Frameworks": ["React", "Node.js", "HTML", "CSS", "REST APIs"],
+  Tools: ["Git", "GitHub", "VS Code", "Excel", "Power BI"],
+  "Web & Data": ["HTML", "CSS", "Responsive Design"],
 };
 
 const CONTACT_LINKS = [
@@ -799,7 +806,7 @@ function Hero() {
 // ─── Skills ───────────────────────────────────────────────────────────────────
 
 const CATEGORY_ICONS: Record<string, React.ReactNode> = {
-  Languages: <Code2 size={22} />,
+  "Programming Languages": <Code2 size={22} />,
   "AI / ML": <Brain size={22} />,
   Tools: <Wrench size={22} />,
   "Web & Frameworks": <Globe size={22} />,
@@ -1533,6 +1540,110 @@ function Contact() {
 
 // ─── Resume Section ───────────────────────────────────────────────────────────
 
+// ─── Experience ──────────────────────────────────────────────────────────────
+
+function Experience() {
+  return (
+    <Section id="experience" className="py-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionHeader
+          label="WORK EXPERIENCE"
+          title="My Experience"
+          subtitle="Professional roles and responsibilities I have undertaken."
+          num="09"
+        />
+
+        <div className="mt-16 max-w-3xl">
+          <div
+            className="glass-card card-hover glow-border-primary p-8 rounded-2xl relative overflow-hidden"
+            data-ocid="experience.item.1"
+          >
+            <div
+              className="absolute top-0 right-0 w-40 h-40 rounded-full blur-3xl opacity-20 pointer-events-none"
+              style={{ background: "oklch(0.65 0.28 300)" }}
+            />
+            <div
+              className="absolute top-0 left-0 right-0 h-0.5"
+              style={{
+                background:
+                  "linear-gradient(90deg, oklch(0.65 0.28 300), oklch(0.75 0.22 200))",
+              }}
+            />
+            <div className="flex items-start gap-5 relative">
+              <div
+                className="flex-shrink-0 w-14 h-14 rounded-2xl flex items-center justify-center"
+                style={{ background: "oklch(0.65 0.28 300 / 0.15)" }}
+              >
+                <Briefcase
+                  size={24}
+                  style={{ color: "oklch(0.75 0.22 300)" }}
+                />
+              </div>
+              <div className="flex-1">
+                <div className="flex flex-wrap items-center justify-between gap-2 mb-1">
+                  <h3 className="text-xl font-bold font-display text-foreground">
+                    Marketing Lead
+                  </h3>
+                  <span
+                    className="text-xs font-semibold px-3 py-1 rounded-full"
+                    style={{
+                      background: "oklch(0.65 0.28 300 / 0.15)",
+                      color: "oklch(0.75 0.22 300)",
+                    }}
+                  >
+                    Aug 2025 – Present
+                  </span>
+                </div>
+                <p
+                  className="text-sm font-semibold mb-4"
+                  style={{ color: "oklch(0.75 0.22 300)" }}
+                >
+                  EventViewz · Training &amp; Development Sector · LPU
+                </p>
+                <ul className="space-y-2 text-muted-foreground text-sm leading-relaxed list-none">
+                  <li className="flex items-start gap-2">
+                    <span
+                      style={{ color: "oklch(0.65 0.28 300)" }}
+                      className="mt-1 flex-shrink-0"
+                    >
+                      ▸
+                    </span>
+                    Led end-to-end marketing strategy for EventViewz at LPU,
+                    driving measurable increases in student engagement, event
+                    registrations, and brand visibility across campus.
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span
+                      style={{ color: "oklch(0.65 0.28 300)" }}
+                      className="mt-1 flex-shrink-0"
+                    >
+                      ▸
+                    </span>
+                    Designed and executed promotional campaigns across social
+                    media and offline channels, collaborating with department
+                    heads to expand audience reach.
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span
+                      style={{ color: "oklch(0.65 0.28 300)" }}
+                      className="mt-1 flex-shrink-0"
+                    >
+                      ▸
+                    </span>
+                    Coordinated with event planning teams to build optimized
+                    marketing funnels, monitor participation metrics, and
+                    continuously improve outreach effectiveness.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Section>
+  );
+}
+
 function ResumeSection() {
   return (
     <Section id="resume" className="py-24">
@@ -1541,7 +1652,7 @@ function ResumeSection() {
           label="DOWNLOAD"
           title="My Resume"
           subtitle="A complete overview of my skills, education, and projects."
-          num="08"
+          num="10"
         />
 
         <div className="mt-16 flex flex-col items-center text-center max-w-2xl mx-auto">
@@ -1753,6 +1864,7 @@ export default function App() {
           <Achievements />
           <Education />
           <Contact />
+          <Experience />
           <ResumeSection />
         </main>
         <Footer />
