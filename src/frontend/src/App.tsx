@@ -58,8 +58,9 @@ function useTheme() {
 const NAV_LINKS = [
   { label: "Home", href: "#home" },
   { label: "Skills", href: "#skills" },
-  { label: "Training", href: "#current-learning" },
   { label: "Projects", href: "#projects" },
+  { label: "Experience", href: "#experience" },
+  { label: "Training", href: "#current-learning" },
   { label: "Certifications", href: "#certifications" },
   { label: "Achievements", href: "#achievements" },
   { label: "Education", href: "#education" },
@@ -80,7 +81,7 @@ const PROJECTS = [
       "Random Forest",
       "Machine Learning",
     ],
-    github: "https://github.com/AbhishekPatel",
+    github: "https://github.com/AbhishekPatel9305/Fake-Profile-Detection",
     icon: "🤖",
   },
   {
@@ -89,7 +90,7 @@ const PROJECTS = [
     description:
       "Developed a fully responsive legal awareness website to simplify access to Indian laws for the general public. Designed structured navigation covering 10+ legal categories including property, criminal, and consumer law, with a clean content hierarchy for non-legal audiences.",
     tags: ["HTML", "CSS", "JavaScript", "Responsive Design"],
-    github: "https://github.com/AbhishekPatel/Law-Guide-India",
+    github: "https://github.com/AbhishekPatel9305/Law-Guide-India",
     icon: "⚖️",
   },
 ];
@@ -199,17 +200,17 @@ const SKILLS = {
 const CONTACT_LINKS = [
   {
     label: "GitHub",
-    href: "https://github.com/AbhishekPatel",
+    href: "https://github.com/AbhishekPatel9305",
     icon: <SiGithub size={20} />,
     color: "oklch(0.85 0.01 270)",
-    sub: "github.com/AbhishekPatel",
+    sub: "github.com/AbhishekPatel9305",
   },
   {
     label: "LinkedIn",
-    href: "https://www.linkedin.com/in/abhishekkumar/",
+    href: "https://www.linkedin.com/in/abhishekkumar9305/",
     icon: <SiLinkedin size={20} />,
     color: "oklch(0.65 0.2 240)",
-    sub: "linkedin.com/in/abhishekkumar",
+    sub: "linkedin.com/in/abhishekkumar9305",
   },
   {
     label: "Email",
@@ -643,7 +644,7 @@ function Hero() {
             style={{ animationDelay: "0.4s" }}
           >
             <a
-              href="https://www.linkedin.com/in/abhishekkumar/"
+              href="https://www.linkedin.com/in/abhishekkumar9305/"
               target="_blank"
               rel="noreferrer"
               className="social-circle-btn"
@@ -656,7 +657,7 @@ function Hero() {
               <SiLinkedin size={18} style={{ color: "oklch(0.65 0.2 240)" }} />
             </a>
             <a
-              href="https://github.com/AbhishekPatel"
+              href="https://github.com/AbhishekPatel9305"
               target="_blank"
               rel="noreferrer"
               className="social-circle-btn"
@@ -1758,7 +1759,7 @@ function Footer() {
 
           <div className="flex items-center gap-3">
             <a
-              href="https://github.com/AbhishekPatel"
+              href="https://github.com/AbhishekPatel9305"
               target="_blank"
               rel="noreferrer"
               className="p-2 text-muted-foreground hover:text-foreground transition-colors"
@@ -1767,7 +1768,7 @@ function Footer() {
               <SiGithub size={16} />
             </a>
             <a
-              href="https://www.linkedin.com/in/abhishekkumar/"
+              href="https://www.linkedin.com/in/abhishekkumar9305/"
               target="_blank"
               rel="noreferrer"
               className="p-2 text-muted-foreground hover:text-foreground transition-colors"
@@ -1857,13 +1858,13 @@ export default function App() {
         <main>
           <Hero />
           <Skills />
-          <CurrentLearning />
           <Projects />
+          <Experience />
+          <CurrentLearning />
           <Certifications />
           <Achievements />
           <Education />
           <Contact />
-          <Experience />
           <ResumeSection />
         </main>
         <Footer />
