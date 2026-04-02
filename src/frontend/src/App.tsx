@@ -70,7 +70,7 @@ const NAV_LINKS = [
 const PROJECTS = [
   {
     title: "Fake Profile Detection System",
-    period: "Feb – Mar 2025",
+    period: "Nov – Dec 2025",
     description:
       "Designed and trained a Random Forest classifier using scikit-learn and pandas on a dataset of 10,000+ social media profiles, achieving ~94% accuracy. Performed feature engineering including null-ratio analysis, profile completeness scoring, and activity pattern extraction. Evaluated model performance using ROC-AUC score of 0.94 and 5-fold cross-validation.",
     tags: [
@@ -80,7 +80,7 @@ const PROJECTS = [
       "Random Forest",
       "Machine Learning",
     ],
-    github: "https://github.com/AbhishekPatel9305",
+    github: "https://github.com/AbhishekPatel",
     icon: "🤖",
   },
   {
@@ -89,7 +89,7 @@ const PROJECTS = [
     description:
       "Developed a fully responsive legal awareness website to simplify access to Indian laws for the general public. Designed structured navigation covering 10+ legal categories including property, criminal, and consumer law, with a clean content hierarchy for non-legal audiences.",
     tags: ["HTML", "CSS", "JavaScript", "Responsive Design"],
-    github: "https://github.com/AbhishekPatel9305/Law-Guide-India",
+    github: "https://github.com/AbhishekPatel/Law-Guide-India",
     icon: "⚖️",
   },
 ];
@@ -199,17 +199,17 @@ const SKILLS = {
 const CONTACT_LINKS = [
   {
     label: "GitHub",
-    href: "https://github.com/AbhishekPatel9305",
+    href: "https://github.com/AbhishekPatel",
     icon: <SiGithub size={20} />,
     color: "oklch(0.85 0.01 270)",
-    sub: "github.com/AbhishekPatel9305",
+    sub: "github.com/AbhishekPatel",
   },
   {
     label: "LinkedIn",
-    href: "https://www.linkedin.com/in/abhishekkumar9305/",
+    href: "https://www.linkedin.com/in/abhishekkumar/",
     icon: <SiLinkedin size={20} />,
     color: "oklch(0.65 0.2 240)",
-    sub: "linkedin.com/in/abhishekkumar9305",
+    sub: "linkedin.com/in/abhishekkumar",
   },
   {
     label: "Email",
@@ -643,7 +643,7 @@ function Hero() {
             style={{ animationDelay: "0.4s" }}
           >
             <a
-              href="https://www.linkedin.com/in/abhishekkumar9305/"
+              href="https://www.linkedin.com/in/abhishekkumar/"
               target="_blank"
               rel="noreferrer"
               className="social-circle-btn"
@@ -656,7 +656,7 @@ function Hero() {
               <SiLinkedin size={18} style={{ color: "oklch(0.65 0.2 240)" }} />
             </a>
             <a
-              href="https://github.com/AbhishekPatel9305"
+              href="https://github.com/AbhishekPatel"
               target="_blank"
               rel="noreferrer"
               className="social-circle-btn"
@@ -1758,7 +1758,7 @@ function Footer() {
 
           <div className="flex items-center gap-3">
             <a
-              href="https://github.com/AbhishekPatel9305"
+              href="https://github.com/AbhishekPatel"
               target="_blank"
               rel="noreferrer"
               className="p-2 text-muted-foreground hover:text-foreground transition-colors"
@@ -1767,7 +1767,7 @@ function Footer() {
               <SiGithub size={16} />
             </a>
             <a
-              href="https://www.linkedin.com/in/abhishekkumar9305/"
+              href="https://www.linkedin.com/in/abhishekkumar/"
               target="_blank"
               rel="noreferrer"
               className="p-2 text-muted-foreground hover:text-foreground transition-colors"
