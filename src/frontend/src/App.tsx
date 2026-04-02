@@ -73,7 +73,7 @@ const PROJECTS = [
     title: "Fake Profile Detection System",
     period: "Nov – Dec 2025",
     description:
-      "Designed and trained a Random Forest classifier using scikit-learn and pandas on a dataset of 10,000+ social media profiles, achieving ~94% accuracy. Performed feature engineering including null-ratio analysis, profile completeness scoring, and activity pattern extraction. Evaluated model performance using ROC-AUC score of 0.94 and 5-fold cross-validation.",
+      "Designed and trained a Random Forest classifier using scikit-learn and pandas on a dataset of social media profiles, achieving ~94% accuracy. Performed feature engineering including null-ratio analysis, profile completeness scoring, and activity pattern extraction. Evaluated model performance using ROC-AUC score of 0.94 and 5-fold cross-validation.",
     tags: [
       "Python",
       "scikit-learn",
@@ -81,7 +81,8 @@ const PROJECTS = [
       "Random Forest",
       "Machine Learning",
     ],
-    github: "https://github.com/AbhishekPatel9305/Fake-Profile-Detection",
+    github:
+      "https://github.com/AbhishekPatel9305/Fake-Profile-Detection-Using-ML",
     icon: "🤖",
   },
   {
@@ -715,6 +716,44 @@ function Hero() {
               Contact Me
             </button>
           </div>
+
+          {/* Stat strip — social proof for recruiters */}
+          <div
+            className="flex items-center gap-6 pt-2 animate-fade-in-up"
+            style={{ animationDelay: "0.6s" }}
+          >
+            {[
+              { value: "2+", label: "Projects Built" },
+              { value: "6+", label: "Certifications" },
+              { value: "B.Tech", label: "AI & ML · LPU" },
+            ].map((stat, i) => (
+              <div key={stat.label} className="flex items-center gap-4">
+                {i > 0 && (
+                  <div
+                    className="w-px h-8 hidden sm:block"
+                    style={{ background: "oklch(0.28 0.06 275)" }}
+                  />
+                )}
+                <div>
+                  <div
+                    className="font-black font-display text-xl leading-none"
+                    style={{
+                      background:
+                        "linear-gradient(135deg, oklch(0.75 0.22 300), oklch(0.75 0.22 200))",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                    }}
+                  >
+                    {stat.value}
+                  </div>
+                  <div className="text-xs text-muted-foreground mt-0.5 whitespace-nowrap">
+                    {stat.label}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Right — photo with ring */}
@@ -872,38 +911,57 @@ function Skills() {
                 className="glass-card card-hover rounded-2xl p-6 relative overflow-hidden"
                 data-ocid={`skills.item.${i + 1}`}
               >
+                {/* Gradient header banner */}
                 <div
-                  className="absolute top-0 left-0 right-0 h-0.5"
+                  className="absolute top-0 left-0 right-0 h-1"
                   style={{
                     background: `linear-gradient(90deg, ${catColor.icon}, transparent)`,
                   }}
                 />
-                <div className="flex items-center gap-3 mb-5">
-                  <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                <div
+                  className="flex items-center justify-between mb-5 -mx-6 -mt-6 px-5 py-4 rounded-t-2xl"
+                  style={{
+                    background: `linear-gradient(135deg, ${catColor.icon.replace(")", " / 0.12)")}, transparent)`,
+                    borderBottom: `1px solid ${catColor.border}`,
+                  }}
+                >
+                  <div className="flex items-center gap-3">
+                    <div
+                      className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                      style={{
+                        background: `${catColor.icon.replace(")", " / 0.2)")}`,
+                        border: `1px solid ${catColor.border}`,
+                        boxShadow: `0 0 12px ${catColor.icon.replace(")", " / 0.2)")}`,
+                      }}
+                    >
+                      <span style={{ color: catColor.icon }}>{icon}</span>
+                    </div>
+                    <h3
+                      className="font-bold font-display text-xs uppercase tracking-widest leading-tight"
+                      style={{ color: catColor.icon }}
+                    >
+                      {category}
+                    </h3>
+                  </div>
+                  <span
+                    className="text-xs font-bold tabular-nums"
                     style={{
-                      background: `${catColor.icon.replace(")", " / 0.15)")}`,
-                      border: `1px solid ${catColor.border}`,
+                      color: `${catColor.icon.replace(")", " / 0.5)")}`,
                     }}
                   >
-                    <span style={{ color: catColor.icon }}>{icon}</span>
-                  </div>
-                  <h3
-                    className="font-bold font-display text-sm uppercase tracking-wide"
-                    style={{ color: catColor.icon }}
-                  >
-                    {category}
-                  </h3>
+                    {skills.length}
+                  </span>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {skills.map((skill) => (
                     <span
                       key={skill}
-                      className="px-3 py-1.5 rounded-full text-xs font-medium border transition-all duration-200 hover:scale-105 cursor-default"
+                      className="px-3 py-1.5 rounded-full text-xs font-semibold border transition-all duration-200 hover:scale-105 cursor-default"
                       style={{
                         background: catColor.tag.bg,
                         borderColor: catColor.tag.border,
                         color: catColor.tag.text,
+                        letterSpacing: "0.01em",
                       }}
                     >
                       {skill}
@@ -1010,47 +1068,100 @@ function Projects() {
               className="group glass-card card-hover rounded-2xl overflow-hidden flex flex-col relative"
               data-ocid={`projects.item.${i + 1}`}
             >
+              {/* Rich project banner */}
               <div
-                className="absolute top-0 left-0 right-0 h-0.5"
+                className="w-full h-32 flex items-center justify-between px-6 relative overflow-hidden flex-shrink-0"
                 style={{
                   background:
                     i % 2 === 0
-                      ? "linear-gradient(90deg, oklch(0.65 0.28 300), oklch(0.75 0.22 200))"
-                      : "linear-gradient(90deg, oklch(0.75 0.22 200), oklch(0.65 0.28 300))",
+                      ? "linear-gradient(135deg, oklch(0.12 0.04 285), oklch(0.17 0.06 300))"
+                      : "linear-gradient(135deg, oklch(0.11 0.04 200), oklch(0.16 0.06 220))",
                 }}
-              />
-              <div className="p-6 flex-1 pt-7">
-                <div className="flex items-start justify-between mb-4">
-                  <div
-                    className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl"
-                    style={{ background: "oklch(0.65 0.28 300 / 0.1)" }}
+              >
+                {/* diagonal stripe texture */}
+                <div
+                  className="absolute inset-0 opacity-20"
+                  style={{
+                    backgroundImage:
+                      "repeating-linear-gradient(55deg, transparent, transparent 12px, oklch(1 0 0 / 0.03) 12px, oklch(1 0 0 / 0.03) 24px)",
+                  }}
+                />
+                {/* glow orb */}
+                <div
+                  className="absolute -bottom-6 -right-6 w-28 h-28 rounded-full blur-2xl opacity-40"
+                  style={{
+                    background:
+                      i % 2 === 0
+                        ? "oklch(0.65 0.28 300)"
+                        : "oklch(0.75 0.22 200)",
+                  }}
+                />
+                <div className="relative z-10 flex flex-col gap-1">
+                  <span
+                    className="text-4xl leading-none"
+                    style={{
+                      filter:
+                        "drop-shadow(0 2px 8px oklch(0.65 0.28 300 / 0.4))",
+                    }}
                   >
                     {project.icon}
-                  </div>
-                  <span className="text-xs text-muted-foreground font-medium">
-                    {project.period}
+                  </span>
+                  <span
+                    className="text-xs font-bold uppercase tracking-widest mt-2"
+                    style={{
+                      color:
+                        i % 2 === 0
+                          ? "oklch(0.75 0.22 300 / 0.7)"
+                          : "oklch(0.75 0.22 200 / 0.7)",
+                    }}
+                  >
+                    Project {String(i + 1).padStart(2, "0")}
                   </span>
                 </div>
-                <h3 className="text-xl font-bold font-display mb-3 text-foreground">
-                  {project.title}
-                </h3>
-                <p className="text-muted-foreground text-sm leading-relaxed mb-5">
-                  {project.description}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-2.5 py-1 rounded-full text-xs font-medium border"
-                      style={{
-                        background: "oklch(0.65 0.28 300 / 0.07)",
-                        borderColor: "oklch(0.65 0.28 300 / 0.25)",
-                        color: "oklch(0.75 0.22 300)",
-                      }}
-                    >
-                      {tag}
-                    </span>
-                  ))}
+                <span
+                  className="relative z-10 text-xs font-semibold px-3 py-1.5 rounded-full border"
+                  style={{
+                    background:
+                      i % 2 === 0
+                        ? "oklch(0.65 0.28 300 / 0.12)"
+                        : "oklch(0.75 0.22 200 / 0.12)",
+                    borderColor:
+                      i % 2 === 0
+                        ? "oklch(0.65 0.28 300 / 0.4)"
+                        : "oklch(0.75 0.22 200 / 0.4)",
+                    color:
+                      i % 2 === 0
+                        ? "oklch(0.8 0.18 300)"
+                        : "oklch(0.8 0.18 200)",
+                  }}
+                >
+                  {project.period}
+                </span>
+              </div>
+
+              <div className="p-6 flex-1">
+                <div className="mb-4">
+                  <h3 className="text-xl font-bold font-display mb-3 text-foreground">
+                    {project.title}
+                  </h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed mb-5">
+                    {project.description}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {project.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="px-2.5 py-1 rounded-full text-xs font-medium border"
+                        style={{
+                          background: "oklch(0.65 0.28 300 / 0.07)",
+                          borderColor: "oklch(0.65 0.28 300 / 0.25)",
+                          color: "oklch(0.75 0.22 300)",
+                        }}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
 
@@ -1058,17 +1169,44 @@ function Projects() {
                 href={project.github}
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center justify-between px-6 py-4 border-t group/link hover:bg-[oklch(0.65_0.28_300/0.05)] transition-colors"
-                style={{ borderColor: "oklch(0.22 0.05 275 / 0.8)" }}
+                className="flex items-center justify-between px-6 py-3.5 border-t group/link transition-all duration-200"
+                style={{
+                  borderColor: "oklch(0.22 0.05 275 / 0.8)",
+                  background: "transparent",
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLElement).style.background =
+                    i % 2 === 0
+                      ? "oklch(0.65 0.28 300 / 0.07)"
+                      : "oklch(0.75 0.22 200 / 0.07)";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLElement).style.background =
+                    "transparent";
+                }}
                 data-ocid={`projects.link.${i + 1}`}
               >
-                <span className="flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors">
+                <span
+                  className="flex items-center gap-2 text-sm font-semibold transition-colors"
+                  style={{
+                    color:
+                      i % 2 === 0
+                        ? "oklch(0.75 0.22 300)"
+                        : "oklch(0.75 0.22 200)",
+                  }}
+                >
                   <SiGithub size={16} />
                   View on GitHub
                 </span>
                 <ExternalLink
                   size={14}
-                  className="text-muted-foreground transition-colors"
+                  style={{
+                    color:
+                      i % 2 === 0
+                        ? "oklch(0.75 0.22 300 / 0.6)"
+                        : "oklch(0.75 0.22 200 / 0.6)",
+                  }}
+                  className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform"
                 />
               </a>
             </div>
